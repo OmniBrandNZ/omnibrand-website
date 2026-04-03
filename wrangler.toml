@@ -1,6 +1,3 @@
 name = "omnibrand-website"
 compatibility_date = "2026-04-03"
-main = "./dist/_worker.js"
-
-[assets]
-directory = "./dist"
+pages_build_output_dir = "./dist"
