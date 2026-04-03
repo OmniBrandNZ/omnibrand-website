@@ -1,0 +1,205 @@
+---
+const services = [
+  {
+    title: 'Corporate Brand Design',
+    timeline: '6–8 weeks',
+    description: 'Our signature package starts with a thorough strategy session, includes multiple rounds of design & revision, and ends with a beautiful brand book.',
+    features: ['Brand Strategy', 'Visual Identity', 'Brand Guidelines', 'Collateral Design'],
+    icon: '◆',
+  },
+  {
+    title: 'Substack Publication Design',
+    timeline: '14 days',
+    description: 'Stand out in the inbox with a cohesive visual identity for your Substack, designed to build subscriber trust and recognition.',
+    features: ['Publication Branding', 'Custom Logos', 'Header Graphics', 'Launch Support'],
+    icon: '◇',
+  },
+  {
+    title: 'Website Design',
+    timeline: '90 days',
+    description: 'A beautifully designed website that brings your brand to life online, built with strategy and crafted with precision.',
+    features: ['UX Strategy', 'Visual Design', 'Responsive Build', 'SEO Foundation'],
+    icon: '○',
+  },
+];
+---
+
+<section class="services section" id="services">
+  <div class="container">
+    <div class="services__header">
+      <p class="services__eyebrow">What We Offer</p>
+      <h2 class="services__title">Designed to elevate your brand at every stage</h2>
+      <p class="services__intro">
+        Choose a trusted brand expert who has launched over 100 successful brands.
+        We bring a strategic approach, meticulous attention to detail, and a
+        commitment to delivering work that lasts.
+      </p>
+    </div>
+
+    <div class="services__grid">
+      {services.map((service, i) => (
+        <article class="service-card" style={`--delay: ${i * 100}ms`}>
+          <div class="service-card__icon">{service.icon}</div>
+          <h3 class="service-card__title">{service.title}</h3>
+          <p class="service-card__timeline">{service.timeline}</p>
+          <p class="service-card__desc">{service.description}</p>
+          <ul class="service-card__features">
+            {service.features.map(f => (
+              <li>{f}</li>
+            ))}
+          </ul>
+          <div class="service-card__footer">
+            <a href="#contact" class="service-card__link">
+              Learn more
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    background-color: var(--color-white);
+  }
+
+  .services__header {
+    text-align: center;
+    max-width: 600px;
+    margin-inline: auto;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .services__eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: var(--space-sm);
+  }
+
+  .services__title {
+    margin-bottom: var(--space-md);
+  }
+
+  .services__intro {
+    color: var(--color-warm-neutral);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-inline: auto;
+  }
+
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .service-card {
+    padding: var(--space-xl) var(--space-lg);
+    border: 1px solid var(--color-light-grey);
+    border-radius: 12px;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-berry));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-base);
+  }
+
+  .service-card:hover {
+    border-color: var(--color-mid-grey);
+    box-shadow: 0 8px 40px rgba(20, 41, 46, 0.08);
+    transform: translateY(-4px);
+  }
+
+  .service-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .service-card__icon {
+    font-size: 1.5rem;
+    color: var(--color-gold);
+    margin-bottom: var(--space-md);
+  }
+
+  .service-card__title {
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .service-card__timeline {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-berry);
+    margin-bottom: var(--space-md);
+  }
+
+  .service-card__desc {
+    font-size: 0.95rem;
+    color: var(--color-warm-neutral);
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+  }
+
+  .service-card__features {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: var(--space-lg);
+  }
+
+  .service-card__features li {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.35rem 0.875rem;
+    background-color: var(--color-off-white);
+    border-radius: 100px;
+    color: var(--color-deep-teal);
+  }
+
+  .service-card__footer {
+    margin-top: auto;
+  }
+
+  .service-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-deep-teal);
+    transition: gap var(--transition-fast);
+  }
+
+  .service-card__link:hover {
+    gap: 0.75rem;
+    color: var(--color-berry);
+  }
+
+  @media (max-width: 1024px) {
+    .services__grid {
+      grid-template-columns: 1fr;
+      max-width: 540px;
+      margin-inline: auto;
+    }
+  }
+</style>

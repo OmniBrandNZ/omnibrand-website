@@ -1,0 +1,151 @@
+---
+---
+
+<section class="about section section--cream" id="about">
+  <div class="container">
+    <div class="about__grid">
+      <div class="about__image-col">
+        <div class="about__image-wrapper">
+          <div class="about__image-placeholder">
+            <!-- Replace with Tara's photo -->
+            <div class="about__initials">TS</div>
+          </div>
+          <div class="about__accent-line"></div>
+        </div>
+      </div>
+      <div class="about__content">
+        <p class="about__eyebrow">Meet Tara Slade</p>
+        <h2 class="about__title">Award-winning brand designer with a passion for helping founders succeed</h2>
+        <p class="about__text">
+          With over a decade of experience and a track record of launching more
+          than 100 brands, Tara brings a strategic approach to every project.
+          She combines meticulous attention to detail with a deep understanding
+          of what makes brands connect with their audience.
+        </p>
+        <p class="about__text">
+          Every brand tells a story. Our role is to make sure yours is told
+          beautifully, consistently, and in a way that truly represents who
+          you are.
+        </p>
+        <div class="about__stats">
+          <div class="about__stat">
+            <span class="about__stat-num">10+</span>
+            <span class="about__stat-label">Years Experience</span>
+          </div>
+          <div class="about__stat">
+            <span class="about__stat-num">100+</span>
+            <span class="about__stat-label">Brands Launched</span>
+          </div>
+          <div class="about__stat">
+            <span class="about__stat-num">NZ</span>
+            <span class="about__stat-label">Based Studio</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-3xl);
+    align-items: center;
+  }
+
+  .about__image-wrapper {
+    position: relative;
+  }
+
+  .about__image-placeholder {
+    aspect-ratio: 3 / 4;
+    background: linear-gradient(135deg, var(--color-deep-teal), var(--color-teal-dark));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .about__initials {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 300;
+    color: var(--color-gold-light);
+    opacity: 0.3;
+  }
+
+  .about__accent-line {
+    position: absolute;
+    bottom: -16px;
+    left: 40px;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-gold), transparent);
+    border-radius: 2px;
+  }
+
+  .about__eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: var(--space-sm);
+  }
+
+  .about__title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    margin-bottom: var(--space-lg);
+  }
+
+  .about__text {
+    color: var(--color-warm-neutral);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-md);
+  }
+
+  .about__stats {
+    display: flex;
+    gap: var(--space-xl);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-mid-grey);
+  }
+
+  .about__stat-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--color-deep-teal);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .about__stat-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-warm-neutral);
+  }
+
+  @media (max-width: 768px) {
+    .about__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+
+    .about__image-col {
+      max-width: 320px;
+      margin-inline: auto;
+    }
+
+    .about__stats {
+      gap: var(--space-lg);
+    }
+  }
+</style>

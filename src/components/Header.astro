@@ -1,0 +1,240 @@
+---
+const navLinks = [
+  { label: 'Services', href: '#services' },
+  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'About', href: '#about' },
+  { label: 'Contact', href: '#contact' },
+];
+---
+
+<header class="header" id="header">
+  <div class="header__inner container">
+    <a href="/" class="header__logo" aria-label="OmniBrand home">
+      <img src="/images/omnibrand-logo.webp" alt="OmniBrand" width="200" height="32" />
+    </a>
+
+    <nav class="header__nav" aria-label="Main navigation">
+      <ul class="header__links">
+        {navLinks.map(link => (
+          <li><a href={link.href} class="header__link">{link.label}</a></li>
+        ))}
+      </ul>
+      <a href="#contact" class="btn btn--primary header__cta">Book a Call</a>
+    </nav>
+
+    <button class="header__menu-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile nav overlay -->
+<div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+  <nav class="mobile-nav__inner">
+    <ul class="mobile-nav__links">
+      {navLinks.map(link => (
+        <li><a href={link.href} class="mobile-nav__link">{link.label}</a></li>
+      ))}
+    </ul>
+    <a href="#contact" class="btn btn--primary mobile-nav__cta">Book a Call</a>
+  </nav>
+</div>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: all var(--transition-base);
+  }
+
+  .header.scrolled {
+    border-bottom-color: var(--color-light-grey);
+    box-shadow: 0 1px 20px rgba(20, 41, 46, 0.06);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+  }
+
+  .header__logo img {
+    height: 26px;
+    width: auto;
+    transition: opacity var(--transition-fast);
+  }
+
+  .header__logo:hover img {
+    opacity: 0.8;
+  }
+
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .header__links {
+    display: flex;
+    list-style: none;
+    gap: var(--space-lg);
+  }
+
+  .header__link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--color-deep-teal);
+    position: relative;
+    padding-block: 0.25rem;
+  }
+
+  .header__link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background-color: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--transition-base);
+  }
+
+  .header__link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .header__cta {
+    font-size: 0.75rem;
+    padding: 0.625rem 1.5rem;
+  }
+
+  /* Hamburger */
+  .header__menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    width: 28px;
+    padding: 4px 0;
+  }
+
+  .header__menu-toggle span {
+    display: block;
+    height: 2px;
+    background: var(--color-deep-teal);
+    border-radius: 1px;
+    transition: all var(--transition-base);
+  }
+
+  .header__menu-toggle span:nth-child(2) {
+    width: 70%;
+    margin-left: auto;
+  }
+
+  .header__menu-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  .header__menu-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  .header__menu-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  /* Mobile Nav */
+  .mobile-nav {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: var(--color-deep-teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-slow);
+  }
+
+  .mobile-nav.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .mobile-nav__links {
+    list-style: none;
+    text-align: center;
+  }
+
+  .mobile-nav__link {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    color: var(--color-white);
+    padding: 0.75rem;
+    transition: color var(--transition-fast);
+  }
+
+  .mobile-nav__link:hover {
+    color: var(--color-gold);
+  }
+
+  .mobile-nav__cta {
+    margin-top: var(--space-lg);
+  }
+
+  @media (max-width: 768px) {
+    .header__nav {
+      display: none;
+    }
+    .header__menu-toggle {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  // Scroll effect for header
+  const header = document.getElementById('header');
+  const menuToggle = document.querySelector('.header__menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+  });
+
+  // Mobile menu toggle
+  menuToggle?.addEventListener('click', () => {
+    const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', String(!expanded));
+    mobileNav?.classList.toggle('open');
+    mobileNav?.setAttribute('aria-hidden', String(expanded));
+    document.body.style.overflow = expanded ? '' : 'hidden';
+  });
+
+  // Close mobile nav on link click
+  mobileNav?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menuToggle?.setAttribute('aria-expanded', 'false');
+      mobileNav?.classList.remove('open');
+      mobileNav?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    });
+  });
+</script>

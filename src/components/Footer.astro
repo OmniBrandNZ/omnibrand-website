@@ -1,0 +1,115 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <img src="/images/omnibrand-logo.webp" alt="OmniBrand" width="160" height="26" class="footer__logo" />
+        <p class="footer__tagline">Thoughtful brand design for founders who care about how they show up.</p>
+      </div>
+      <div class="footer__links">
+        <div class="footer__col">
+          <h4 class="footer__col-title">Studio</h4>
+          <ul>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">Connect</h4>
+          <ul>
+            <li><a href="mailto:hello@omnibrand.co.nz">Email</a></li>
+            <li><a href="https://instagram.com/omnibrand.nz" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://linkedin.com/company/omnibrand" target="_blank" rel="noopener">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; {year} OmniBrand Limited. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-deep-teal);
+    color: var(--color-mid-grey);
+    padding-block: var(--space-3xl) var(--space-lg);
+  }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--space-3xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .footer__logo {
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+    margin-bottom: var(--space-md);
+  }
+
+  .footer__tagline {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 35ch;
+    color: var(--color-warm-neutral);
+  }
+
+  .footer__links {
+    display: flex;
+    gap: var(--space-3xl);
+  }
+
+  .footer__col-title {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-white);
+    margin-bottom: var(--space-md);
+  }
+
+  .footer__col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .footer__col a {
+    font-size: 0.9rem;
+    color: var(--color-warm-neutral);
+    transition: color var(--transition-fast);
+  }
+
+  .footer__col a:hover {
+    color: var(--color-gold-light);
+  }
+
+  .footer__bottom {
+    padding-top: var(--space-lg);
+    font-size: 0.8rem;
+    color: var(--color-warm-neutral);
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .footer__inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+
+    .footer__links {
+      gap: var(--space-xl);
+    }
+  }
+</style>

@@ -1,0 +1,139 @@
+---
+const testimonials = [
+  {
+    quote: "Working with Tara was transformative for our brand. She took the time to truly understand our vision and translated it into something we're incredibly proud of.",
+    author: 'Rachel',
+    role: 'Founder',
+  },
+  {
+    quote: "The level of detail and strategic thinking that went into our brand identity was extraordinary. Tara doesn't just design — she builds brands that work.",
+    author: 'Tanya',
+    role: 'Enviromer',
+  },
+  {
+    quote: "From the initial strategy session through to the final brand book, the entire process was smooth, professional, and inspiring. Highly recommended.",
+    author: 'Geoffrey',
+    role: 'Publication Author',
+  },
+];
+---
+
+<section class="testimonials section section--dark" id="testimonials">
+  <div class="container">
+    <div class="testimonials__header">
+      <p class="testimonials__eyebrow">Client Stories</p>
+      <h2>What they said</h2>
+    </div>
+    <div class="testimonials__grid">
+      {testimonials.map((t, i) => (
+        <blockquote class="testimonial" style={`--delay: ${i * 150}ms`}>
+          <div class="testimonial__quote-mark" aria-hidden="true">"</div>
+          <p class="testimonial__text">{t.quote}</p>
+          <footer class="testimonial__author">
+            <div class="testimonial__avatar">{t.author[0]}</div>
+            <div>
+              <cite class="testimonial__name">{t.author}</cite>
+              <span class="testimonial__role">{t.role}</span>
+            </div>
+          </footer>
+        </blockquote>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials__header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .testimonials__eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: var(--space-sm);
+  }
+
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .testimonial {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: var(--space-xl) var(--space-lg);
+    position: relative;
+    transition: all var(--transition-base);
+  }
+
+  .testimonial:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-4px);
+  }
+
+  .testimonial__quote-mark {
+    font-family: var(--font-serif);
+    font-size: 4rem;
+    color: var(--color-gold);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: -0.5rem;
+  }
+
+  .testimonial__text {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.8;
+    color: var(--color-mid-grey);
+    margin-bottom: var(--space-lg);
+    max-width: none;
+  }
+
+  .testimonial__author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .testimonial__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-gold);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  .testimonial__name {
+    display: block;
+    font-style: normal;
+    font-weight: 600;
+    color: var(--color-white);
+    font-size: 0.9rem;
+  }
+
+  .testimonial__role {
+    font-size: 0.8rem;
+    color: var(--color-warm-neutral);
+  }
+
+  @media (max-width: 1024px) {
+    .testimonials__grid {
+      grid-template-columns: 1fr;
+      max-width: 560px;
+      margin-inline: auto;
+    }
+  }
+</style>
