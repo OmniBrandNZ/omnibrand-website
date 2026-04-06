@@ -1,0 +1,223 @@
+---
+const testimonials = [
+  {
+    quote: "Tara has an amazing eye for colour and space and gets it just right. She took my brief and made it even better than I thought possible. She really felt into my product, and established the best way to market it to my clients. On top of that she juggled our differing time-zones with ease. I couldn't think of any better person to work with.",
+    author: 'Claudia Rudolph',
+    role: 'Founder at KarooFelt',
+    photo: '/images/client-review-claudia-karoofelt.png',
+  },
+  {
+    quote: "I've worked with Omnibrand for years, and their work is top-notch. With great web designs and helpful consulting along the way, they've expanded my reach as an author of two books, built my audience, and brought in far more subscribers for my Substack, The Burner Files. With Tara Slade and her team, you're in good hands. You'll be taken care of.",
+    author: 'Geoffrey Cain',
+    role: 'Author',
+    photo: '/images/brand-design-client-review-geoffrey-cain.jpg',
+  },
+  {
+    quote: "I knew Tara was the right person to work with after meeting her. She was instantly personable, easy to communicate with, and understood what I was struggling with and what my goals were. I did not doubt that she could help me build something I'm proud of sharing — and she absolutely delivered! Her care and attention has been outstanding.",
+    author: 'Rachel Grosvenor',
+    role: 'Author',
+    photo: '/images/rachel5.jpg',
+  },
+  {
+    quote: "Tara has developed a corporate identity that really reflects the essence of the brand we wanted to create.\nShe was intuitive, creative and patient with us. Her energy is clear and focused. We love the work she has done and we highly recommend Tara and her team at OmniBrand.",
+    author: 'Tanya Brodie-Rudolph',
+    role: 'Co-Founder at Enviromer',
+    photo: '/images/client-testimonial-enviromer-tanya-brodie-rudolph.jpg',
+  },
+  {
+    quote: "I may have had 20 years of experience as a journalist, but when I began making the shift to start my own Substack, I felt like a disheveled mess.\nThankfully, a friend told me about Tara's amazing design work at OmniBrand. One Substack package later, and I had a slick logo, an inspired color scheme and all the support I needed to feel like I was dressed for success.",
+    author: 'Stephen Totilo',
+    role: 'Game File',
+    photo: '/images/stephen-totilo.jpg',
+  },
+];
+---
+
+<section class="ts section section--dark">
+  <div class="container">
+    <h2 class="ts__title">What they said:</h2>
+    <div class="ts__slider" id="testimonial-slider">
+      {testimonials.map((t, i) => (
+        <div class={`ts__slide ${i === 0 ? 'ts__slide--active' : ''}`} data-index={i}>
+          <blockquote class="ts__quote">
+            {t.quote.split('\n').map((para: string) => (
+              <p class="ts__text">{para}</p>
+            ))}
+          </blockquote>
+          <div class="ts__author">
+            <img src={t.photo} alt={t.author} class="ts__photo" width="100" height="100" />
+            <cite class="ts__name">{t.author}</cite>
+            <span class="ts__role">{t.role}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="ts__dots" id="testimonial-dots">
+      {testimonials.map((_, i) => (
+        <button
+          class={`ts__dot ${i === 0 ? 'ts__dot--active' : ''}`}
+          data-index={i}
+          aria-label={`Show testimonial ${i + 1}`}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const slides = document.querySelectorAll('.ts__slide');
+  const dots = document.querySelectorAll('.ts__dot');
+  let current = 0;
+  let autoTimer: ReturnType<typeof setInterval>;
+
+  function goTo(index: number) {
+    slides[current]?.classList.remove('ts__slide--active');
+    dots[current]?.classList.remove('ts__dot--active');
+    current = index;
+    slides[current]?.classList.add('ts__slide--active');
+    dots[current]?.classList.add('ts__dot--active');
+  }
+
+  function next() {
+    goTo((current + 1) % slides.length);
+  }
+
+  // Dot clicks
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      const idx = Number((dot as HTMLElement).dataset.index);
+      goTo(idx);
+      resetAuto();
+    });
+  });
+
+  // Auto-advance every 6 seconds
+  function resetAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(next, 6000);
+  }
+  resetAuto();
+</script>
+
+<style>
+  .ts {
+    text-align: center;
+    padding-block: var(--space-3xl);
+  }
+
+  .ts__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    color: var(--color-white);
+    margin-bottom: var(--space-3xl);
+  }
+
+  /* Slider */
+  .ts__slider {
+    position: relative;
+    max-width: 800px;
+    margin-inline: auto;
+    min-height: 280px;
+  }
+
+  .ts__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ts__slide--active {
+    opacity: 1;
+    pointer-events: all;
+    position: relative;
+  }
+
+  /* Quote */
+  .ts__quote {
+    margin-bottom: var(--space-xl);
+  }
+
+  .ts__text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.9;
+    color: var(--color-mid-grey);
+    max-width: 700px;
+    margin-inline: auto;
+  }
+
+  /* Author */
+  .ts__author {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .ts__photo {
+    width: 135px;
+    height: 135px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--color-white);
+    margin-bottom: 0.5rem;
+  }
+
+  .ts__name {
+    font-style: normal;
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--color-gold);
+    font-weight: 400;
+  }
+
+  .ts__role {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-warm-neutral);
+  }
+
+  /* Dots */
+  .ts__dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: var(--space-xl);
+  }
+
+  .ts__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    padding: 0;
+  }
+
+  .ts__dot:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  .ts__dot--active {
+    background: var(--color-gold);
+    transform: scale(1.2);
+  }
+
+  @media (max-width: 768px) {
+    .ts__slider {
+      min-height: 340px;
+    }
+  }
+</style>

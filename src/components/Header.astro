@@ -10,10 +10,13 @@ const serviceLinks = [
 ];
 ---
 
+<div class="accent-bar">
+  <p>Interested in working with me? <a href="/contact">Book a Discovery Call</a></p>
+</div>
 <header class="header" id="header">
   <div class="header__inner container">
     <a href="/" class="header__logo" aria-label="OmniBrand home">
-      <img src="/images/omnibrand-logo.webp" alt="OmniBrand" width="200" height="32" />
+      <img src="/images/omnibrand-logo.webp" alt="OmniBrand" width="400" height="64" />
     </a>
 
     <nav class="header__nav" aria-label="Main navigation">
@@ -58,17 +61,45 @@ const serviceLinks = [
 </div>
 
 <style>
+  /* Accent bar - not sticky, scrolls away */
+  .accent-bar {
+    background: var(--color-accent);
+    text-align: center;
+    padding: 0.6rem var(--space-md);
+  }
+
+  .accent-bar p {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-white);
+    margin: 0;
+    max-width: none;
+  }
+
+  .accent-bar a {
+    color: var(--color-white);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity var(--transition-fast);
+  }
+
+  .accent-bar a:hover {
+    opacity: 0.8;
+  }
+
+  /* Header - sticky, stays at top once accent bar scrolls away */
   .header {
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     z-index: 100;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid transparent;
-    transition: all var(--transition-base);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
   }
 
   .header.scrolled {
@@ -80,11 +111,11 @@ const serviceLinks = [
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 80px;
+    height: 65px;
   }
 
   .header__logo img {
-    height: 26px;
+    height: 42px;
     width: auto;
     transition: opacity var(--transition-fast);
   }
