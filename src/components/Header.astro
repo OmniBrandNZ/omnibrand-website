@@ -1,9 +1,12 @@
 ---
 const navLinks = [
-  { label: 'Services', href: '#services' },
-  { label: 'Portfolio', href: '#portfolio' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Portfolio', href: '/#portfolio' },
+  { label: 'About', href: '/#about' },
+  { label: 'Contact', href: '/contact' },
+];
+
+const serviceLinks = [
+  { label: 'Corporate Brand Design', href: '/services/corporate-brand-design' },
 ];
 ---
 
@@ -15,11 +18,19 @@ const navLinks = [
 
     <nav class="header__nav" aria-label="Main navigation">
       <ul class="header__links">
+        <li class="header__dropdown">
+          <a href="/#services" class="header__link">Services</a>
+          <ul class="header__dropdown-menu">
+            {serviceLinks.map(link => (
+              <li><a href={link.href} class="header__dropdown-link">{link.label}</a></li>
+            ))}
+          </ul>
+        </li>
         {navLinks.map(link => (
           <li><a href={link.href} class="header__link">{link.label}</a></li>
         ))}
       </ul>
-      <a href="#contact" class="btn btn--primary header__cta">Book a Call</a>
+      <a href="/contact" class="btn btn--primary header__cta">Book a Call</a>
     </nav>
 
     <button class="header__menu-toggle" aria-label="Open menu" aria-expanded="false">
@@ -34,11 +45,15 @@ const navLinks = [
 <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
   <nav class="mobile-nav__inner">
     <ul class="mobile-nav__links">
+      <li><a href="/#services" class="mobile-nav__link">Services</a></li>
+      {serviceLinks.map(link => (
+        <li><a href={link.href} class="mobile-nav__link mobile-nav__link--sub">{link.label}</a></li>
+      ))}
       {navLinks.map(link => (
         <li><a href={link.href} class="mobile-nav__link">{link.label}</a></li>
       ))}
     </ul>
-    <a href="#contact" class="btn btn--primary mobile-nav__cta">Book a Call</a>
+    <a href="/contact" class="btn btn--primary mobile-nav__cta">Book a Call</a>
   </nav>
 </div>
 
@@ -117,6 +132,49 @@ const navLinks = [
     transform-origin: left;
   }
 
+  /* Dropdown */
+  .header__dropdown {
+    position: relative;
+  }
+
+  .header__dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    list-style: none;
+    background: var(--color-white);
+    border: 1px solid var(--color-light-grey);
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    min-width: 240px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-fast), visibility var(--transition-fast);
+    margin-top: 0.5rem;
+  }
+
+  .header__dropdown:hover .header__dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .header__dropdown-link {
+    display: block;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-deep-teal);
+    white-space: nowrap;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .header__dropdown-link:hover {
+    background-color: var(--color-off-white);
+    color: var(--color-accent);
+  }
+
   .header__cta {
     font-size: 0.75rem;
     padding: 0.625rem 1.5rem;
@@ -189,6 +247,18 @@ const navLinks = [
 
   .mobile-nav__link:hover {
     color: var(--color-gold);
+  }
+
+  .mobile-nav__link--sub {
+    font-size: 1.2rem;
+    color: var(--color-gold);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .mobile-nav__link--sub:hover {
+    color: var(--color-gold-light);
   }
 
   .mobile-nav__cta {

@@ -1,0 +1,118 @@
+---
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('portfolio');
+const sorted = projects.sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="portfolio section" id="portfolio">
+  <div class="container">
+    <div class="portfolio__header">
+      <p class="portfolio__eyebrow">Portfolio</p>
+      <h2>Selected Work</h2>
+    </div>
+    <div class="portfolio__grid">
+      {sorted.map((project) => (
+        <a href={`/portfolio/${project.id}`} class="portfolio__card">
+          <div class="portfolio__card-image">
+            <img src={project.data.featured} alt={project.data.title} loading="lazy" />
+          </div>
+          <div class="portfolio__card-content">
+            <h3 class="portfolio__card-title">{project.data.title}</h3>
+            <p class="portfolio__card-excerpt">{project.data.excerpt}</p>
+            <span class="portfolio__card-client">{project.data.clientName}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .portfolio__header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .portfolio__eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: var(--space-sm);
+    padding-left: 0.2em;
+  }
+
+  .portfolio__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .portfolio__card {
+    display: block;
+    background: var(--color-white);
+    border: 1px solid var(--color-light-grey);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all var(--transition-base);
+  }
+
+  .portfolio__card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(20, 41, 46, 0.1);
+    border-color: var(--color-mid-grey);
+  }
+
+  .portfolio__card-image {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .portfolio__card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .portfolio__card:hover .portfolio__card-image img {
+    transform: scale(1.03);
+  }
+
+  .portfolio__card-content {
+    padding: var(--space-lg);
+  }
+
+  .portfolio__card-title {
+    font-size: 1.3rem;
+    color: var(--color-deep-teal);
+    margin-bottom: var(--space-xs);
+  }
+
+  .portfolio__card-excerpt {
+    font-size: 0.9rem;
+    color: var(--color-warm-neutral);
+    line-height: 1.7;
+    margin-bottom: var(--space-sm);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .portfolio__card-client {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  @media (max-width: 768px) {
+    .portfolio__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

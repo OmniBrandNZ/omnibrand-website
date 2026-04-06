@@ -13,21 +13,32 @@ const year = new Date().getFullYear();
         <div class="footer__col">
           <h4 class="footer__col-title">Studio</h4>
           <ul>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="/services/corporate-brand-design">Corporate Brand Design</a></li>
+            <li><a href="/#services">Services</a></li>
+            <li><a href="/#about">About</a></li>
+            <li><a href="/#testimonials">Testimonials</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__col-title">Contact</h4>
+          <ul>
+            <li><a href="mailto:info@omnibrand.co.nz">info@omnibrand.co.nz</a></li>
+            <li><a href="tel:+6448880212">+64 4 888 0212</a></li>
+            <li><a href="tel:+64204143506">+64 20 4143 5060</a></li>
           </ul>
         </div>
         <div class="footer__col">
           <h4 class="footer__col-title">Connect</h4>
           <ul>
-            <li><a href="mailto:hello@omnibrand.co.nz">Email</a></li>
             <li><a href="https://instagram.com/omnibrand.nz" target="_blank" rel="noopener">Instagram</a></li>
             <li><a href="https://linkedin.com/company/omnibrand" target="_blank" rel="noopener">LinkedIn</a></li>
           </ul>
         </div>
       </div>
+    </div>
+    <div class="footer__address">
+      <p>Level 2, Bell Gully Building, 40 Lady Elizabeth Lane, Wellington Central, Wellington 6011, New Zealand</p>
     </div>
     <div class="footer__bottom">
       <p>&copy; {year} OmniBrand Limited. All rights reserved.</p>
@@ -95,8 +106,16 @@ const year = new Date().getFullYear();
     color: var(--color-gold-light);
   }
 
+  .footer__address {
+    padding-top: var(--space-md);
+    font-size: 0.8rem;
+    color: var(--color-warm-neutral);
+    opacity: 0.5;
+    line-height: 1.6;
+  }
+
   .footer__bottom {
-    padding-top: var(--space-lg);
+    padding-top: var(--space-md);
     font-size: 0.8rem;
     color: var(--color-warm-neutral);
     opacity: 0.7;
@@ -109,6 +128,7 @@ const year = new Date().getFullYear();
     }
 
     .footer__links {
+      flex-direction: column;
       gap: var(--space-xl);
     }
   }

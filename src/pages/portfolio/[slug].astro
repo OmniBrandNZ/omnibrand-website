@@ -1,0 +1,244 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('portfolio');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, excerpt, featured, images, clientName, clientHandle, clientBio, clientPhoto, clientLocation, quote } = project.data;
+---
+
+<BaseLayout title={`${title} — OmniBrand Portfolio`} description={excerpt}>
+  <Header />
+  <main class="portfolio-detail">
+    <section class="portfolio-detail__hero section--cream">
+      <div class="container">
+        <a href="/#portfolio" class="portfolio-detail__back">&larr; Back to Portfolio</a>
+        <h1 class="portfolio-detail__title">{title}</h1>
+
+        <div class="portfolio-detail__layout">
+          <!-- Left: Featured image + grid -->
+          <div class="portfolio-detail__gallery">
+            <div class="portfolio-detail__featured">
+              <img src={featured} alt={`${title} — featured`} width="1000" height="750" />
+            </div>
+            <div class="portfolio-detail__grid">
+              {images.slice(0, 5).map((img, i) => (
+                <div class={`portfolio-detail__grid-item ${i === 4 ? 'portfolio-detail__grid-item--span' : ''}`}>
+                  <img src={img} alt={`${title} — image ${i + 1}`} loading="lazy" />
+                </div>
+              ))}
+            </div>
+            <p class="portfolio-detail__excerpt">{excerpt}</p>
+          </div>
+
+          <!-- Right: Description + client info -->
+          <div class="portfolio-detail__info">
+            <div class="portfolio-detail__description">
+              <Content />
+            </div>
+
+            {quote && (
+              <blockquote class="portfolio-detail__quote">
+                <p>"{quote}"</p>
+              </blockquote>
+            )}
+
+            <div class="portfolio-detail__client">
+              <div class="portfolio-detail__client-header">
+                <img src={clientPhoto} alt={clientName} class="portfolio-detail__client-photo" width="56" height="56" />
+                <div>
+                  <span class="portfolio-detail__client-label">Client:</span>
+                  <span class="portfolio-detail__client-name">{clientName}</span>
+                  {clientHandle && <span class="portfolio-detail__client-handle"> | {clientHandle}</span>}
+                </div>
+              </div>
+              <p class="portfolio-detail__client-bio">{clientBio}</p>
+              <p class="portfolio-detail__client-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                {clientLocation}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .portfolio-detail {
+    padding-top: 80px;
+  }
+
+  .portfolio-detail__hero {
+    padding-block: var(--space-xl) var(--space-3xl);
+  }
+
+  .portfolio-detail__back {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-warm-neutral);
+    margin-bottom: var(--space-lg);
+    transition: color var(--transition-fast);
+  }
+
+  .portfolio-detail__back:hover {
+    color: var(--color-deep-teal);
+  }
+
+  .portfolio-detail__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--space-xl);
+  }
+
+  /* Main 2-column layout */
+  .portfolio-detail__layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  /* Gallery: featured + 2x2+1 grid */
+  .portfolio-detail__featured {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: var(--space-md);
+  }
+
+  .portfolio-detail__featured img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .portfolio-detail__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .portfolio-detail__grid-item {
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .portfolio-detail__grid-item--span {
+    grid-column: 1 / -1;
+  }
+
+  .portfolio-detail__grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .portfolio-detail__excerpt {
+    font-size: 0.95rem;
+    color: var(--color-warm-neutral);
+    line-height: 1.7;
+  }
+
+  /* Right side: description + client */
+  .portfolio-detail__description {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-dark-grey);
+    margin-bottom: var(--space-lg);
+  }
+
+  .portfolio-detail__description :global(p) {
+    margin-bottom: var(--space-md);
+    max-width: none;
+  }
+
+  .portfolio-detail__quote {
+    border-left: 3px solid var(--color-gold);
+    padding-left: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+
+  .portfolio-detail__quote p {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--color-warm-dark);
+    max-width: none;
+  }
+
+  .portfolio-detail__client {
+    background: var(--color-white);
+    border: 1px solid var(--color-light-grey);
+    border-radius: 12px;
+    padding: var(--space-lg);
+  }
+
+  .portfolio-detail__client-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .portfolio-detail__client-photo {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .portfolio-detail__client-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-warm-neutral);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .portfolio-detail__client-name {
+    font-weight: 600;
+    color: var(--color-deep-teal);
+  }
+
+  .portfolio-detail__client-handle {
+    font-size: 0.85rem;
+    color: var(--color-warm-neutral);
+  }
+
+  .portfolio-detail__client-bio {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--color-dark-grey);
+    margin-bottom: var(--space-md);
+    max-width: none;
+  }
+
+  .portfolio-detail__client-location {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--color-warm-neutral);
+  }
+
+  @media (max-width: 768px) {
+    .portfolio-detail__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

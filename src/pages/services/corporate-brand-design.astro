@@ -1,0 +1,970 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const deliverables = [
+  { title: 'Brand Discovery Session', desc: 'A relaxed, in-depth video call where I ask the questions most designers skip. We get to the heart of what your brand needs to say — and to whom. This is where the strategy begins.' },
+  { title: 'Brand Strategy & Research', desc: 'Every Omnibrand identity is built on a foundation of strategy. I research your market, your competitors, and your audience before a single design concept is created. The strategy shapes every visual decision that follows.' },
+  { title: 'Primary Logo Design', desc: 'Your main brand mark — designed through multiple concept rounds until it\'s exactly right.' },
+  { title: 'Secondary Logo & Submark', desc: 'Versatile variations of your logo for different contexts: social media, favicons, small-format applications, print.' },
+  { title: 'Brand Icon & Favicon', desc: 'A distinctive mark that works at the smallest sizes — your brand\'s visual shorthand.' },
+  { title: 'Colour Palette', desc: 'A considered, strategic colour system with primary and supporting colours, complete with hex codes, RGB, and CMYK values for consistent use across digital and print.' },
+  { title: 'Typography Suite', desc: 'A curated pairing of typefaces — selected to reflect your brand personality and optimised for readability across web, email, and print.' },
+  { title: 'Corporate Stationery Set', desc: 'Your choice of three digital-ready assets from: letterhead, email signature, business card, invoice template, or social media banner.' },
+  { title: 'Social Media Templates', desc: 'Profile icons and banners for up to 10 platforms of your choice — sized, formatted, and ready to upload.' },
+  { title: 'Digital Brand Book', desc: 'Your comprehensive guide to maintaining a consistent brand identity across every touchpoint. Typically 10–14 pages, delivered as a polished PDF. Covers logo usage, colour, typography, spacing rules, and dos and don\'ts.' },
+  { title: 'Launch Support', desc: 'This isn\'t a handover-and-disappear package. I walk you through implementing your new brand — from uploading assets to updating your website, email signatures, and social profiles. You\'ll feel confident using your brand from day one.' },
+];
+
+const timeline = [
+  { week: 'Week 1', title: 'Discovery & Strategy', desc: 'We start with a discovery session: a video call where I learn everything I need to know about your business, your audience, your values, and your goals. This isn\'t a surface-level brief. I ask the questions that get to the heart of what your brand needs to communicate — and why. From there, I conduct market and competitor research and develop your brand strategy. This is the foundation everything else is built on.' },
+  { week: 'Weeks 2–5', title: 'Design & Collaboration', desc: 'I begin designing your brand identity, starting with logo concepts and building outward into colour, typography, and supporting elements. You\'ll see work at every stage. We collaborate through multiple rounds of revision — there\'s no cap on rounds, because the goal is a brand you genuinely love. This phase is a conversation, not a conveyor belt. I\'ll share my thinking, explain the strategic reasoning behind each design decision, and invite your honest feedback.' },
+  { week: 'Weeks 6–8', title: 'Delivery & Launch', desc: 'Once the design is finalised, I prepare your complete brand asset library and your digital brand book. I walk you through every file, every format, every guideline — so you understand not just what your brand looks like, but how to use it consistently. I also provide hands-on launch support: helping you implement your new brand across your website, social media, and communications.' },
+];
+
+const forYou = [
+  'You\'re a founder, writer, or leader who has outgrown your current brand — or never had a proper one to begin with.',
+  'You want a brand that reflects the calibre of your work, not just the aesthetic trends of the moment.',
+  'You care about strategy, not just a pretty logo. You want to understand why your brand looks the way it does.',
+  'You\'re ready to invest in something that will serve your business for years — not a quick fix you\'ll replace in twelve months.',
+  'You want a designer who asks hard questions, pushes your thinking, and delivers work you\'re proud to put your name on.',
+];
+
+const notForYou = [
+  'You need a brand tomorrow. (I have an Emergency Brand service for that.)',
+  'You\'re looking for the cheapest option. I\'m not competing on price — I\'m competing on quality, strategy, and track record.',
+  'You want to hand over a Pinterest board and get back exactly what you pinned. I\'ll always listen to your inspiration, but my job is to push beyond it.',
+];
+
+const testimonials = [
+  { quote: 'Tara has an amazing eye for colour and space and gets it just right. She took my brief and made it even better than I thought possible. She really felt into my product, and established the best way to market it to my clients. On top of that she juggled our differing time-zones with ease and kept me abreast on what was happening with small videos on changes that were being made while I was asleep. I couldn\'t think of any better person to work with.', author: 'Claudia Rudolph', role: 'Founder at KarooFelt', photo: '/images/client-review-claudia-karoofelt.png' },
+  { quote: 'Tara has developed a corporate identity that really reflects the essence of the brand we wanted to create. She was intuitive, creative and patient with us. Her energy is clear and focused. We love the work she has done and we highly recommend Tara and her team at Omnibrand.', author: 'Tanya Brodie-Rudolph', role: 'Co-Founder at Enviromer', photo: '/images/client-testimonial-enviromer-tanya-brodie-rudolph.jpg' },
+  { quote: 'I\'ve worked with Omnibrand for years, and their work is top-notch. With great web designs and helpful consulting along the way, they\'ve expanded my reach as an author of two books, built my audience, and brought in far more subscribers for my Substack. With Tara Slade and her team, you\'re in good hands.', author: 'Geoffrey Cain', role: 'Author', photo: '/images/brand-design-client-review-geoffrey-cain.jpg' },
+];
+
+const faqs = [
+  { q: 'How long does the full process take?', a: 'Six to eight weeks, from our first discovery call to final delivery of your brand assets and brand book. The exact timeline depends on the complexity of your project and how quickly we move through revision rounds together. I\'ll give you a clear timeline estimate after our discovery call.' },
+  { q: 'How many revision rounds do I get?', a: 'As many as it takes. I don\'t cap revision rounds because I\'m not interested in delivering a brand you\'re merely okay with. We keep refining until you genuinely love it. In practice, most projects go through 2–4 rounds before we land on the final design.' },
+  { q: 'What\'s the discovery session like?', a: 'Relaxed and informal — a video call, usually 60–90 minutes. I\'ll ask you about your business, your audience, your competitors, your values, and your goals. You don\'t need to prepare anything specific — just come ready to talk honestly about your work.' },
+  { q: 'What are the payment terms?', a: 'This is a fixed-fee project. 50% is due upfront to secure your spot and begin discovery. The remaining 50% is due on delivery of your final brand assets. No hourly billing, no open-ended invoices, no surprises.' },
+  { q: 'I\'m in a different time zone. Is that a problem?', a: 'Not at all — most of my clients are. I\'m based in New Zealand (NZST), and I work with clients across the US, UK, Europe, the Middle East, and Asia. I use video updates between sessions so you can see progress even when we\'re on opposite sides of the clock.' },
+  { q: 'Can you help with a rebrand, or is this only for new brands?', a: 'Both. Many of my clients come to me with an existing brand that no longer fits. The discovery and strategy phase is where we work out whether you need a complete rebuild or a strategic refresh. Either way, you\'ll leave with a brand that reflects where you are now.' },
+  { q: 'What\'s included in the brand book?', a: 'A 10–14 page PDF covering: logo usage and clear space rules, colour palette with values for digital and print, typography system, brand mark variations, dos and don\'ts, and application examples — so anyone working with your brand knows how to use it correctly.' },
+  { q: 'What if I also need a website?', a: 'I offer a combined Brand + Website package that includes everything here plus a professionally designed, responsive website built on WordPress. That package runs over approximately 90 days and includes hosting and ongoing maintenance.' },
+  { q: 'What\'s NOT included?', a: 'This package focuses on brand identity — your visual brand system. It does not include website design, copywriting, photography, video production, or ongoing marketing services. If you need any of these, I can recommend trusted collaborators.' },
+  { q: 'How do I know if we\'re a good fit?', a: 'Book a free discovery call. It\'s a relaxed, no-pressure conversation — usually about 20 minutes. If we\'re a good fit, I\'ll send you a proposal. If we\'re not, I\'ll tell you honestly and point you in the right direction. No hard sell, ever.' },
+];
+---
+
+<BaseLayout title="Corporate Brand Design — OmniBrand" description="Award-winning brand design for founders, writers, and leaders. Strategy-led identity design by Tara Slade.">
+  <Header />
+  <main class="cbd">
+
+    {/* SECTION 1 — HERO */}
+    <section class="cbd-hero">
+      <div class="container">
+        <p class="cbd-hero__eyebrow">Corporate Brand Design</p>
+        <h1 class="cbd-hero__title">Award-winning brand design for founders, writers, and leaders who are ready to be taken seriously.</h1>
+        <p class="cbd-hero__subtitle">Led by Tara Slade — brand strategist and designer behind 100+ brand launches, including identities for writers featured in The Washington Post, The New York Times, CNN, and across Substack's most-read publications.</p>
+        <div class="cbd-hero__cta">
+          <a href="#contact" class="btn btn--primary btn--lg">Book a free discovery call &rarr;</a>
+          <p class="cbd-hero__micro">No commitment. No jargon. Just a conversation about where your brand needs to go.</p>
+        </div>
+      </div>
+    </section>
+
+    {/* SECTION 2 — CREDIBILITY STRIP */}
+    <section class="cbd-cred">
+      <div class="container">
+        <p class="cbd-cred__label">Clients include:</p>
+        <p class="cbd-cred__names">Dan Rather &middot; Anne Helen Petersen &middot; Casey Newton &middot; Mehdi Hasan &middot; Shadi Hamid &middot; Geoffrey Cain</p>
+        <div class="cbd-cred__stats">
+          <span>Winner — Best Logo Design 2025 &middot; DesignRush</span>
+          <span>100+ brands launched since 2011</span>
+          <span>14 years in practice</span>
+        </div>
+      </div>
+    </section>
+
+    {/* SECTION 3 — THE PROBLEM */}
+    <section class="cbd-problem section">
+      <div class="container">
+        <h2 class="cbd-section__title">You know your work is good. But your brand doesn't show it yet.</h2>
+        <div class="cbd-prose">
+          <p>You've built something real — a business, a publication, a body of work that matters. But when someone lands on your website, opens your newsletter, or sees your name for the first time, the brand doesn't match what's behind it.</p>
+          <p>Maybe it was thrown together in the early days when you just needed something. Maybe it was designed by someone who made it look nice but never asked you the hard questions. Maybe you've outgrown it entirely.</p>
+          <p>Whatever the reason, you're carrying a brand that's working against you. It's attracting the wrong clients, confusing your audience, or simply failing to communicate who you are and why you're worth paying attention to.</p>
+          <p class="cbd-prose__emphasis">That gap — between who you actually are and what people see — is costing you more than you realise.</p>
+        </div>
+      </div>
+    </section>
+
+    {/* SECTION 4 — THE TRANSFORMATION */}
+    <section class="cbd-transform section section--dark">
+      <div class="container">
+        <h2 class="cbd-section__title">What changes when your brand finally tells the truth.</h2>
+        <div class="cbd-prose cbd-prose--light">
+          <p>When your brand identity is built on genuine strategy — when it's grounded in who you are, who you serve, and what makes you different — something shifts.</p>
+          <p>You stop explaining yourself. Your website does it for you. Your proposals land differently because the brand behind them signals credibility before you say a word. The right people find you. The wrong ones filter themselves out.</p>
+          <p>Your brand becomes the clearest, most confident version of what you've been building all along. Not a mask. Not a performance. Just you — made visible.</p>
+          <p class="cbd-prose__emphasis cbd-prose__emphasis--gold">That's what this package delivers.</p>
+        </div>
+      </div>
+    </section>
+
+    {/* SECTION 5 — WHAT'S INCLUDED */}
+    <section class="cbd-included section">
+      <div class="container">
+        <h2 class="cbd-section__title cbd-section__title--centered">Everything you need to launch — or relaunch — with total confidence.</h2>
+        <div class="cbd-included__grid">
+          {deliverables.map((d, i) => (
+            <div class="cbd-deliverable">
+              <span class="cbd-deliverable__num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="cbd-deliverable__title">{d.title}</h3>
+              <p class="cbd-deliverable__desc">{d.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* SECTION 6 — THE PROCESS */}
+    <section class="cbd-process section section--cream">
+      <div class="container">
+        <h2 class="cbd-section__title cbd-section__title--centered">How we get from here to a brand you're proud of.</h2>
+        <div class="cbd-timeline">
+          {timeline.map((step, i) => (
+            <div class="cbd-step">
+              <div class="cbd-step__marker">
+                <span class="cbd-step__week">{step.week}</span>
+                <span class="cbd-step__dot"></span>
+                {i < timeline.length - 1 && <span class="cbd-step__line"></span>}
+              </div>
+              <div class="cbd-step__content">
+                <h3 class="cbd-step__title">{step.title}</h3>
+                <p class="cbd-step__desc">{step.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="cbd-timeline__footer">
+          <p><strong>Total timeline: 6–8 weeks from discovery to launch.</strong></p>
+          <p>I take on a maximum of two Corporate Brand projects at a time. This isn't a volume operation — it's focused, 1:1 attention from start to finish.</p>
+        </div>
+      </div>
+    </section>
+
+    {/* SECTION 7 — WHO THIS IS FOR */}
+    <section class="cbd-fit section">
+      <div class="container">
+        <h2 class="cbd-section__title">This package is for you if...</h2>
+        <ul class="cbd-fit__list cbd-fit__list--yes">
+          {forYou.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <p class="cbd-fit__note">And a gentle note: This package probably isn't the right fit if...</p>
+        <ul class="cbd-fit__list cbd-fit__list--no">
+          {notForYou.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    {/* SECTION 8 — TESTIMONIALS */}
+    <section class="cbd-testimonials section section--dark">
+      <div class="container">
+        <div class="cbd-testimonials__grid">
+          {testimonials.map((t) => (
+            <blockquote class="cbd-testimonial">
+              <div class="cbd-testimonial__mark" aria-hidden="true">&ldquo;</div>
+              <p class="cbd-testimonial__text">{t.quote}</p>
+              <footer class="cbd-testimonial__footer">
+                <img src={t.photo} alt={t.author} class="cbd-testimonial__photo" width="44" height="44" />
+                <div>
+                  <cite class="cbd-testimonial__name">{t.author}</cite>
+                  <span class="cbd-testimonial__role">{t.role}</span>
+                </div>
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* SECTION 9 — ABOUT TARA */}
+    <section class="cbd-about section">
+      <div class="container">
+        <div class="cbd-about__grid">
+          <div class="cbd-about__photo-wrap">
+            <img src="/images/tara-retouched.jpg" alt="Tara Slade" class="cbd-about__photo" width="400" height="500" />
+          </div>
+          <div class="cbd-about__content">
+            <p class="cbd-about__eyebrow">Led by Tara Slade</p>
+            <p class="cbd-about__text">I'm a brand strategist and designer based in Wellington, New Zealand, working with clients around the world. Over the past 14 years, I've designed more than 100 brand identities — for startup founders, bestselling authors, award-winning journalists, and growing businesses across every time zone.</p>
+            <p class="cbd-about__text">I work with a small number of clients at a time because I believe great branding requires genuine attention — not a production line. Every brand I design is strategy-led, personally crafted, and built to last.</p>
+            <a href="/#about" class="cbd-about__link">More about Tara &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* SECTION 10 — INVESTMENT */}
+    <section class="cbd-invest section section--cream">
+      <div class="container">
+        <h2 class="cbd-section__title cbd-section__title--centered">Investment</h2>
+        <div class="cbd-invest__card">
+          <h3 class="cbd-invest__name">Corporate Brand Design</h3>
+          <p class="cbd-invest__price">From $3,500 USD</p>
+          <p class="cbd-invest__note">This is a fixed-fee project. No hourly billing. No surprises.</p>
+          <div class="cbd-invest__terms">
+            <p><strong>Payment structure:</strong></p>
+            <p>50% to secure your spot and begin discovery. 50% on delivery of your final brand assets.</p>
+          </div>
+          <p class="cbd-invest__includes">Your investment includes everything listed above: discovery, strategy, research, full logo suite, colour and typography, stationery, social media templates, brand book, and launch support. 1:1 service from start to finish.</p>
+        </div>
+        <div class="cbd-invest__alt">
+          <h4>Is there a way to start smaller?</h4>
+          <p>If you're not sure you're ready for a full rebrand, a <strong>Brand Audit</strong> might be the right first step. It's a 90-minute strategy session where I review your existing brand and give you a clear, written assessment of what's working, what's not, and what to fix first. If you go on to book a Corporate Brand package, the audit fee is credited toward your project.</p>
+          <p class="cbd-invest__audit-price">Learn more about the Brand Audit &rarr; <strong>$650 USD</strong></p>
+        </div>
+      </div>
+    </section>
+
+    {/* SECTION 11 — SCARCITY + CTA */}
+    <section class="cbd-cta section section--dark" id="contact">
+      <div class="container">
+        <div class="cbd-cta__inner">
+          <p class="cbd-cta__scarcity">Currently booking for May: 2 Corporate Brand spots remaining.</p>
+          <p class="cbd-cta__note">I take on a maximum of two Corporate Brand projects per month to ensure every client gets my full, undivided attention.</p>
+          <a href="#contact" class="btn btn--primary btn--lg">Book a free discovery call &rarr;</a>
+          <p class="cbd-cta__micro">No commitment. No jargon. Just a conversation about where your brand needs to go — and whether we're the right fit.</p>
+        </div>
+      </div>
+    </section>
+
+    {/* SECTION 12 — FAQ */}
+    <section class="cbd-faq section">
+      <div class="container">
+        <h2 class="cbd-section__title cbd-section__title--centered">Questions you might have</h2>
+        <div class="cbd-faq__list">
+          {faqs.map((faq) => (
+            <details class="cbd-faq__item">
+              <summary class="cbd-faq__q">{faq.q}</summary>
+              <p class="cbd-faq__a">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* SECTION 13 — BRIDGE TO OTHER SERVICES */}
+    <section class="cbd-bridge section section--cream">
+      <div class="container">
+        <h2 class="cbd-section__title cbd-section__title--centered">Not quite what you're looking for?</h2>
+        <div class="cbd-bridge__grid">
+          <div class="cbd-bridge__card">
+            <h3>Need it faster?</h3>
+            <p>The <strong>Emergency Brand</strong> is a 48-hour brand design service for founders and writers who need a professional identity urgently.</p>
+            <span class="cbd-bridge__price">From $1,500 USD</span>
+          </div>
+          <div class="cbd-bridge__card">
+            <h3>Launching on Substack?</h3>
+            <p>The <strong>Substack Publication Design</strong> package is a streamlined 14-day brand package built specifically for Substack writers.</p>
+            <span class="cbd-bridge__price">From $850 USD</span>
+          </div>
+          <div class="cbd-bridge__card">
+            <h3>Want brand and website?</h3>
+            <p>The <strong>Brand + Website Design</strong> package includes everything above, plus a professionally designed website with hosting and maintenance.</p>
+            <span class="cbd-bridge__price">Get in touch for pricing</span>
+          </div>
+          <div class="cbd-bridge__card">
+            <h3>Not sure where to start?</h3>
+            <p>Book a <strong>Brand Audit</strong> — a 90-minute strategy session where I review your existing brand and tell you exactly what needs to change.</p>
+            <span class="cbd-bridge__price">$650 USD</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  // FAQ accordion — allow only one open at a time
+  document.querySelectorAll('.cbd-faq__item').forEach((item) => {
+    item.addEventListener('toggle', () => {
+      if ((item as HTMLDetailsElement).open) {
+        document.querySelectorAll('.cbd-faq__item').forEach((other) => {
+          if (other !== item) (other as HTMLDetailsElement).open = false;
+        });
+      }
+    });
+  });
+</script>
+
+<style>
+  /* =====================
+     HERO
+     ===================== */
+  .cbd-hero {
+    background: linear-gradient(160deg, #0d1e24 0%, #14282d 40%, #08171b 100%);
+    padding: 160px 0 var(--space-3xl);
+    text-align: center;
+  }
+
+  .cbd-hero__eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: var(--space-md);
+  }
+
+  .cbd-hero__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--color-white);
+    line-height: 1.3;
+    margin-bottom: var(--space-lg);
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  .cbd-hero__subtitle {
+    font-size: 1rem;
+    color: var(--color-mid-grey);
+    line-height: 1.8;
+    margin-bottom: var(--space-xl);
+    max-width: 750px;
+    margin-inline: auto;
+  }
+
+  .cbd-hero__cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .cbd-hero__micro {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.4);
+    font-style: italic;
+  }
+
+  .btn--lg {
+    padding: 1rem 2.5rem;
+    font-size: 0.875rem;
+  }
+
+  /* =====================
+     CREDIBILITY STRIP
+     ===================== */
+  .cbd-cred {
+    background: var(--color-off-white);
+    border-top: 1px solid var(--color-light-grey);
+    border-bottom: 1px solid var(--color-light-grey);
+    padding: var(--space-lg) 0;
+    text-align: center;
+  }
+
+  .cbd-cred__label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-warm-neutral);
+    margin-bottom: 0.5rem;
+  }
+
+  .cbd-cred__names {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--color-deep-teal);
+    letter-spacing: 0.02em;
+    margin-bottom: var(--space-sm);
+  }
+
+  .cbd-cred__stats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+    font-size: 0.8rem;
+    color: var(--color-warm-neutral);
+  }
+
+  /* =====================
+     SHARED SECTION STYLES
+     ===================== */
+  .cbd-section__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    line-height: 1.3;
+    margin-bottom: var(--space-xl);
+  }
+
+  .cbd-section__title--centered {
+    text-align: center;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  .cbd-prose p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--color-dark-grey);
+    margin-bottom: var(--space-md);
+    max-width: none;
+  }
+
+  .cbd-prose--light p {
+    color: var(--color-mid-grey);
+  }
+
+  .cbd-prose__emphasis {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.15rem !important;
+    color: var(--color-deep-teal) !important;
+    border-left: 3px solid var(--color-berry);
+    padding-left: var(--space-md);
+  }
+
+  .cbd-prose__emphasis--gold {
+    color: var(--color-gold-light) !important;
+    border-color: var(--color-gold);
+  }
+
+  /* =====================
+     WHAT'S INCLUDED
+     ===================== */
+  .cbd-included__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg) var(--space-xl);
+  }
+
+  .cbd-deliverable {
+    position: relative;
+    padding-left: 3.5rem;
+  }
+
+  .cbd-deliverable__num {
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--color-gold);
+    opacity: 0.5;
+  }
+
+  .cbd-deliverable__title {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--color-deep-teal);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .cbd-deliverable__desc {
+    font-size: 0.95rem;
+    color: var(--color-warm-neutral);
+    line-height: 1.7;
+    max-width: none;
+  }
+
+  /* =====================
+     THE PROCESS / TIMELINE
+     ===================== */
+  .cbd-timeline {
+    max-width: 800px;
+    margin: 0 auto var(--space-xl);
+  }
+
+  .cbd-step {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--space-lg);
+    position: relative;
+  }
+
+  .cbd-step + .cbd-step {
+    margin-top: var(--space-xl);
+  }
+
+  .cbd-step__marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .cbd-step__week {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .cbd-step__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-berry);
+    flex-shrink: 0;
+  }
+
+  .cbd-step__line {
+    width: 2px;
+    flex: 1;
+    background: var(--color-light-grey);
+    margin-top: 0.5rem;
+  }
+
+  .cbd-step__title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    color: var(--color-deep-teal);
+    margin-bottom: var(--space-sm);
+  }
+
+  .cbd-step__desc {
+    font-size: 0.95rem;
+    color: var(--color-warm-neutral);
+    line-height: 1.8;
+    max-width: none;
+  }
+
+  .cbd-timeline__footer {
+    text-align: center;
+    max-width: 600px;
+    margin-inline: auto;
+    font-size: 0.95rem;
+    color: var(--color-warm-dark);
+    line-height: 1.7;
+  }
+
+  .cbd-timeline__footer p + p {
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+
+  /* =====================
+     WHO THIS IS FOR
+     ===================== */
+  .cbd-fit__list {
+    list-style: none;
+    margin-bottom: var(--space-xl);
+  }
+
+  .cbd-fit__list li {
+    position: relative;
+    padding-left: 2rem;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--color-dark-grey);
+    margin-bottom: var(--space-md);
+  }
+
+  .cbd-fit__list li::before {
+    position: absolute;
+    left: 0;
+    top: 0.15rem;
+    font-size: 1.1rem;
+  }
+
+  .cbd-fit__list--yes li::before {
+    content: '\2713';
+    color: var(--color-teal-accent);
+  }
+
+  .cbd-fit__list--no li::before {
+    content: '\2717';
+    color: var(--color-warm-neutral);
+  }
+
+  .cbd-fit__note {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--color-warm-dark);
+    margin-bottom: var(--space-md);
+  }
+
+  .cbd-fit__list--no li {
+    color: var(--color-warm-neutral);
+    font-size: 0.95rem;
+  }
+
+  /* =====================
+     TESTIMONIALS
+     ===================== */
+  .cbd-testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .cbd-testimonial {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .cbd-testimonial__mark {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    color: var(--color-gold);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: -0.25rem;
+  }
+
+  .cbd-testimonial__text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--color-mid-grey);
+    margin-bottom: var(--space-lg);
+    max-width: none;
+  }
+
+  .cbd-testimonial__footer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .cbd-testimonial__photo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .cbd-testimonial__name {
+    display: block;
+    font-style: normal;
+    font-weight: 600;
+    color: var(--color-white);
+    font-size: 0.9rem;
+  }
+
+  .cbd-testimonial__role {
+    font-size: 0.8rem;
+    color: var(--color-warm-neutral);
+  }
+
+  /* =====================
+     ABOUT TARA (mini)
+     ===================== */
+  .cbd-about__grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .cbd-about__photo {
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    aspect-ratio: 4/5;
+  }
+
+  .cbd-about__eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: var(--space-sm);
+  }
+
+  .cbd-about__text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-dark-grey);
+    margin-bottom: var(--space-md);
+    max-width: none;
+  }
+
+  .cbd-about__link {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-berry);
+    transition: gap var(--transition-fast);
+    display: inline-flex;
+    gap: 0.25rem;
+  }
+
+  .cbd-about__link:hover {
+    gap: 0.5rem;
+  }
+
+  /* =====================
+     INVESTMENT
+     ===================== */
+  .cbd-invest__card {
+    background: var(--color-white);
+    border: 1px solid var(--color-light-grey);
+    border-radius: 16px;
+    padding: var(--space-xl);
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto var(--space-xl);
+  }
+
+  .cbd-invest__name {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    color: var(--color-deep-teal);
+    margin-bottom: var(--space-sm);
+  }
+
+  .cbd-invest__price {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--color-deep-teal);
+    margin-bottom: var(--space-sm);
+  }
+
+  .cbd-invest__note {
+    font-size: 0.9rem;
+    color: var(--color-warm-neutral);
+    margin-bottom: var(--space-lg);
+  }
+
+  .cbd-invest__terms {
+    background: var(--color-off-white);
+    border-radius: 8px;
+    padding: var(--space-md);
+    font-size: 0.9rem;
+    color: var(--color-dark-grey);
+    margin-bottom: var(--space-md);
+    line-height: 1.7;
+  }
+
+  .cbd-invest__includes {
+    font-size: 0.85rem;
+    color: var(--color-warm-neutral);
+    line-height: 1.7;
+    max-width: none;
+  }
+
+  .cbd-invest__alt {
+    max-width: 560px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .cbd-invest__alt h4 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--color-deep-teal);
+    margin-bottom: var(--space-sm);
+  }
+
+  .cbd-invest__alt p {
+    font-size: 0.95rem;
+    color: var(--color-dark-grey);
+    line-height: 1.7;
+    margin-bottom: var(--space-sm);
+    max-width: none;
+  }
+
+  .cbd-invest__audit-price {
+    color: var(--color-berry) !important;
+    font-weight: 600;
+  }
+
+  /* =====================
+     SCARCITY CTA
+     ===================== */
+  .cbd-cta__inner {
+    text-align: center;
+    max-width: 600px;
+    margin-inline: auto;
+  }
+
+  .cbd-cta__scarcity {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    color: var(--color-gold-light);
+    margin-bottom: var(--space-sm);
+  }
+
+  .cbd-cta__note {
+    font-size: 0.95rem;
+    color: var(--color-mid-grey);
+    margin-bottom: var(--space-lg);
+    line-height: 1.7;
+  }
+
+  .cbd-cta__micro {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.4);
+    font-style: italic;
+    margin-top: var(--space-sm);
+  }
+
+  /* =====================
+     FAQ
+     ===================== */
+  .cbd-faq__list {
+    max-width: 700px;
+    margin-inline: auto;
+  }
+
+  .cbd-faq__item {
+    border-bottom: 1px solid var(--color-light-grey);
+  }
+
+  .cbd-faq__q {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    color: var(--color-deep-teal);
+    cursor: pointer;
+    padding: var(--space-md) 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .cbd-faq__q::-webkit-details-marker {
+    display: none;
+  }
+
+  .cbd-faq__q::after {
+    content: '+';
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--color-gold);
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+  }
+
+  .cbd-faq__item[open] .cbd-faq__q::after {
+    content: '\2212';
+  }
+
+  .cbd-faq__a {
+    font-size: 0.95rem;
+    color: var(--color-warm-neutral);
+    line-height: 1.8;
+    padding-bottom: var(--space-md);
+    max-width: none;
+  }
+
+  /* =====================
+     BRIDGE / OTHER SERVICES
+     ===================== */
+  .cbd-bridge__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+  }
+
+  .cbd-bridge__card {
+    background: var(--color-white);
+    border: 1px solid var(--color-light-grey);
+    border-radius: 12px;
+    padding: var(--space-lg);
+  }
+
+  .cbd-bridge__card h3 {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--color-deep-teal);
+    margin-bottom: 0.5rem;
+  }
+
+  .cbd-bridge__card p {
+    font-size: 0.85rem;
+    color: var(--color-warm-neutral);
+    line-height: 1.7;
+    margin-bottom: var(--space-sm);
+    max-width: none;
+  }
+
+  .cbd-bridge__price {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--color-berry);
+  }
+
+  /* =====================
+     RESPONSIVE
+     ===================== */
+  @media (max-width: 768px) {
+    .cbd-hero {
+      padding-top: 120px;
+    }
+
+    .cbd-included__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cbd-step {
+      grid-template-columns: 1fr;
+    }
+
+    .cbd-step__marker {
+      flex-direction: row;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xs);
+    }
+
+    .cbd-step__line {
+      display: none;
+    }
+
+    .cbd-testimonials__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cbd-about__grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .cbd-about__photo {
+      max-width: 280px;
+      margin-inline: auto;
+    }
+
+    .cbd-bridge__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .cbd-cred__stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .cbd-bridge__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

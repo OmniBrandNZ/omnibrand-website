@@ -5,20 +5,23 @@
 /* --- CSS Custom Properties --- */
 :root {
   /* Brand Colours */
-  --color-deep-teal: #14292e;
-  --color-teal-dark: #1a363d;
-  --color-gold: #b89974;
+  --color-deep-teal: #0d1e24;
+  --color-teal-dark: #14282d;
+  --color-teal-darker: #08171b;
+  --color-gold: #caa476;
   --color-gold-light: #d4b896;
-  --color-berry: #921e65;
-  --color-berry-light: #a8347a;
+  --color-accent: #b43d14;
+  --color-accent-light: #c9501f;
+  --color-berry: #b43d14;
+  --color-berry-light: #c9501f;
   --color-teal-accent: #54b1b9;
   --color-warm-neutral: #a0978a;
   --color-warm-dark: #897c6a;
 
   /* Neutral Palette */
   --color-white: #ffffff;
-  --color-off-white: #fffbf6;
-  --color-cream: #fcfaf9;
+  --color-off-white: #f7f6f4;
+  --color-cream: #f7f6f4;
   --color-light-grey: #f0ede9;
   --color-mid-grey: #d0d5d2;
   --color-dark-grey: #333333;
@@ -39,7 +42,7 @@
   --space-3xl: 8rem;
 
   /* Layout */
-  --max-width: 1200px;
+  --max-width: 1500px;
   --max-width-narrow: 800px;
   --border-radius: 4px;
 
@@ -123,7 +126,7 @@ p {
   width: 100%;
   max-width: var(--max-width);
   margin-inline: auto;
-  padding-inline: var(--space-md);
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
 }
 
 .container--narrow {
@@ -164,7 +167,7 @@ p {
 .btn--primary:hover {
   background-color: var(--color-berry-light);
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(146, 30, 101, 0.3);
+  box-shadow: 0 4px 20px rgba(180, 61, 20, 0.3);
 }
 
 .btn--outline {

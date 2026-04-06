@@ -1,19 +1,28 @@
 ---
 const testimonials = [
   {
-    quote: "Working with Tara was transformative for our brand. She took the time to truly understand our vision and translated it into something we're incredibly proud of.",
-    author: 'Rachel',
-    role: 'Founder',
+    quote: "I've worked with Omnibrand for years, and their work is top-notch. With great web designs and helpful consulting along the way, they've expanded my reach as an author of two books, built my audience, and brought in far more subscribers for my Substack, The Burner Files. With Tara Slade and her team, you're in good hands. You'll be taken care of.",
+    author: 'Geoffrey Cain',
+    role: 'Author',
+    photo: '/images/brand-design-client-review-geoffrey-cain.jpg',
   },
   {
-    quote: "The level of detail and strategic thinking that went into our brand identity was extraordinary. Tara doesn't just design — she builds brands that work.",
-    author: 'Tanya',
-    role: 'Enviromer',
+    quote: "Tara has an amazing eye for colour & space and gets it just right. She took my brief & made it even better than I thought possible. She really felt into my product, and established the best way to market it to my clients. On top of that she juggled our differing time-zones with ease. I couldn't think of any better person to work with.",
+    author: 'Claudia Rudolph',
+    role: 'Founder at KarooFelt',
+    photo: '/images/client-review-claudia-karoofelt.png',
   },
   {
-    quote: "From the initial strategy session through to the final brand book, the entire process was smooth, professional, and inspiring. Highly recommended.",
-    author: 'Geoffrey',
-    role: 'Publication Author',
+    quote: "I knew Tara was the right person to work with after meeting her. She was instantly personable, easy to communicate with, and understood what I was struggling with and what my goals were. I did not doubt that she could help me build something I'm proud of sharing — and she absolutely delivered! Her care and attention has been outstanding.",
+    author: 'Rachel Grosvenor',
+    role: 'Author',
+    photo: '/images/rachel5.jpg',
+  },
+  {
+    quote: "Tara has developed a corporate identity that really reflects the essence of the brand we wanted to create. She was intuitive, creative & patient with us. Her energy is clear & focused. We love the work she has done & we highly recommend Tara & her team at OmniBrand.",
+    author: 'Tanya Brodie-Rudolph',
+    role: 'Co-Founder at Enviromer',
+    photo: '/images/client-testimonial-enviromer-tanya-brodie-rudolph.jpg',
   },
 ];
 ---
@@ -30,7 +39,11 @@ const testimonials = [
           <div class="testimonial__quote-mark" aria-hidden="true">"</div>
           <p class="testimonial__text">{t.quote}</p>
           <footer class="testimonial__author">
-            <div class="testimonial__avatar">{t.author[0]}</div>
+            {t.photo ? (
+              <img src={t.photo} alt={t.author} class="testimonial__avatar testimonial__avatar--photo" width="40" height="40" />
+            ) : (
+              <div class="testimonial__avatar">{t.author[0]}</div>
+            )}
             <div>
               <cite class="testimonial__name">{t.author}</cite>
               <span class="testimonial__role">{t.role}</span>
@@ -55,12 +68,14 @@ const testimonials = [
     text-transform: uppercase;
     color: var(--color-gold);
     margin-bottom: var(--space-sm);
+    padding-left: 0.2em;
   }
 
   .testimonials__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-lg);
+    max-width: none;
   }
 
   .testimonial {
@@ -114,6 +129,11 @@ const testimonials = [
     justify-content: center;
     font-weight: 600;
     font-size: 0.875rem;
+    flex-shrink: 0;
+  }
+
+  .testimonial__avatar--photo {
+    object-fit: cover;
   }
 
   .testimonial__name {
@@ -129,11 +149,10 @@ const testimonials = [
     color: var(--color-warm-neutral);
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 768px) {
     .testimonials__grid {
       grid-template-columns: 1fr;
       max-width: 560px;
-      margin-inline: auto;
     }
   }
 </style>
