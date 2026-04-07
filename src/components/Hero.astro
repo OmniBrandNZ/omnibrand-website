@@ -2,8 +2,7 @@
 ---
 
 <section class="hero">
-  <div class="hero__bg-text" aria-hidden="true">OMNIBRAND</div>
-  <div class="hero__bg-text hero__bg-text--bottom" aria-hidden="true">OMNIBRAND</div>
+  <img src="/images/hero-section-overlay-100.png" class="hero__watermark" alt="" aria-hidden="true" />
   <div class="hero__inner">
     <div class="hero__content">
       <p class="hero__eyebrow">Brand Design Studio</p>
@@ -24,7 +23,7 @@
     </div>
     <div class="hero__visual">
       <img
-        src="/images/tara-slade-brand-designer-wellington-new-zealand.jpg"
+        src="/images/tara-slade-omnibrand-professional-brand-designer-wellington-new-zealand.jpg"
         alt="Tara Slade, OmniBrand founder"
         class="hero__photo"
       />
@@ -43,7 +42,6 @@
 <script>
   // Parallax on scroll
   const hero = document.querySelector('.hero');
-  const bgTexts = document.querySelectorAll('.hero__bg-text');
   const content = document.querySelector('.hero__content');
   const visual = document.querySelector('.hero__visual');
 
@@ -57,11 +55,6 @@
 
         if (scrollY < heroHeight) {
           const progress = scrollY / heroHeight;
-
-          bgTexts.forEach((el, i) => {
-            const dir = i === 0 ? 1 : -1;
-            (el as HTMLElement).style.transform = `translateX(${dir * progress * 60}px)`;
-          });
 
           if (content) {
             (content as HTMLElement).style.transform = `translateY(${progress * 40}px)`;
@@ -112,11 +105,6 @@
     100% { background-position: 0% 50%; }
   }
 
-  @keyframes bgTextDrift {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(30px); }
-  }
-
   @keyframes float {
     0%, 100% { transform: translateY(0) scale(1); }
     33% { transform: translateY(-20px) scale(1.05); }
@@ -136,43 +124,29 @@
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(160deg, #0d1e24 0%, #14282d 30%, #0d1e24 60%, #08171b 100%);
+    background: linear-gradient(160deg, #14282d 0%, #264047 30%, #14282d 60%, #071114 100%);
     background-size: 200% 200%;
     animation: gradientShift 12s ease-in-out infinite;
     overflow: hidden;
   }
 
-  /* Watermark text */
-  .hero__bg-text {
+  /* Watermark overlay */
+  .hero__watermark {
     position: absolute;
-    bottom: -3%;
-    left: -2%;
-    font-family: var(--font-serif);
-    font-size: clamp(6rem, 15vw, 14rem);
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.03);
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-    user-select: none;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     pointer-events: none;
-    animation: bgTextDrift 20s ease-in-out infinite;
-    will-change: transform;
-  }
-
-  .hero__bg-text--bottom {
-    bottom: auto;
-    top: -2%;
-    left: auto;
-    right: -2%;
-    font-size: clamp(5rem, 12vw, 11rem);
-    animation-direction: reverse;
-    animation-duration: 25s;
+    user-select: none;
+    z-index: 1;
+    opacity: 0.5;
   }
 
   /* Layout */
   .hero__inner {
     display: grid;
-    grid-template-columns: 1fr 40vw;
+    grid-template-columns: 1fr 35vw;
     min-height: 100vh;
     position: relative;
     z-index: 1;
@@ -355,18 +329,14 @@
       max-height: 50vh;
     }
 
-    .hero__bg-text--bottom {
-      display: none;
+    .hero__watermark {
+      opacity: 0.5;
     }
   }
 
   /* Respect reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .hero {
-      animation: none;
-    }
-
-    .hero__bg-text {
       animation: none;
     }
 

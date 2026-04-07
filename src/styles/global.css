@@ -4,28 +4,30 @@
 
 /* --- CSS Custom Properties --- */
 :root {
-  /* Brand Colours */
-  --color-deep-teal: #0d1e24;
-  --color-teal-dark: #14282d;
-  --color-teal-darker: #08171b;
-  --color-gold: #caa476;
-  --color-gold-light: #d4b896;
-  --color-accent: #b43d14;
-  --color-accent-light: #c9501f;
-  --color-berry: #b43d14;
-  --color-berry-light: #c9501f;
-  --color-teal-accent: #54b1b9;
-  --color-warm-neutral: #a0978a;
-  --color-warm-dark: #897c6a;
-
-  /* Neutral Palette */
+  /* Neutrals */
   --color-white: #ffffff;
-  --color-off-white: #f7f6f4;
-  --color-cream: #f7f6f4;
-  --color-light-grey: #f0ede9;
+  --color-off-white: #f5f0ea;
+  --color-cream: #f5f0ea;
+  --color-stone: #ede4d9;
+  --color-light-grey: #ede4d9;
+  --color-gold: #d4b896;
+  --color-gold-light: #d4b896;
   --color-mid-grey: #d0d5d2;
   --color-dark-grey: #333333;
   --color-near-black: #16163f;
+
+  /* Accent */
+  --color-accent: #c9501f;
+  --color-accent-light: #c9501f;
+  --color-berry: #c9501f;
+  --color-berry-light: #b43d14;
+  --color-accent-hover: #b43d14;
+
+  /* Teals */
+  --color-deep-teal: #14282d;
+  --color-teal-dark: #14282d;
+  --color-teal-watermark: #264047;
+  --color-teal-darker: #071114;
 
   /* Typography */
   --font-serif: 'Libre Baskerville', 'Georgia', serif;

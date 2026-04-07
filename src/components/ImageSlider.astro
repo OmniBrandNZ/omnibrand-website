@@ -1,0 +1,87 @@
+---
+const images = [
+  { src: '/images/slider/1-burner-files-slider.png', alt: 'Burner Files brand design' },
+  { src: '/images/slider/2-12-step-sliders.jpg', alt: '12 Step brand design' },
+  { src: '/images/slider/3-the-agonist-slider.jpg', alt: 'The Agonist brand design' },
+  { src: '/images/slider/4-garrison-keillor-slider.png', alt: 'Garrison Keillor brand design' },
+  { src: '/images/slider/5-enviromer-website-slider.png', alt: 'Enviromer website design' },
+  { src: '/images/slider/6-lund-loop-slider.jpg', alt: 'Lund Loop brand design' },
+  { src: '/images/slider/7-zeteo-slider.jpg', alt: 'Zeteo brand design' },
+  { src: '/images/slider/8-empower-law-slider.png', alt: 'Empower Law brand design' },
+  { src: '/images/slider/9-karoowunder-slider.png', alt: 'KarooWunder brand design' },
+  { src: '/images/slider/10-enviromer-slider.png', alt: 'Enviromer brand design' },
+  { src: '/images/slider/11-blonde-cactus-slider.jpg', alt: 'Blonde Cactus brand design' },
+];
+---
+
+<section class="image-slider">
+  <div class="image-slider__track" id="imageSliderTrack">
+    {images.map((img) => (
+      <div class="image-slider__slide">
+        <img src={img.src} alt={img.alt} loading="lazy" />
+      </div>
+    ))}
+    {images.map((img) => (
+      <div class="image-slider__slide">
+        <img src={img.src} alt={img.alt} loading="lazy" aria-hidden="true" />
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .image-slider {
+    overflow: hidden;
+    padding: var(--space-2xl) 0;
+    background: var(--color-white);
+  }
+
+  .image-slider__track {
+    display: flex;
+    gap: 1.5rem;
+    width: max-content;
+    animation: scroll 40s linear infinite;
+  }
+
+  .image-slider__track:hover {
+    animation-play-state: paused;
+  }
+
+  .image-slider__slide {
+    flex-shrink: 0;
+    height: 280px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .image-slider__slide img {
+    height: 100%;
+    width: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .image-slider {
+      padding: var(--space-xl) 0;
+    }
+
+    .image-slider__slide {
+      height: 200px;
+    }
+
+    .image-slider__track {
+      gap: 1rem;
+      animation-duration: 30s;
+    }
+  }
+</style>
