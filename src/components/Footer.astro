@@ -6,8 +6,9 @@ const year = new Date().getFullYear();
   <div class="container">
     <div class="footer__inner">
       <div class="footer__brand">
-        <img src="/images/omnibrand-logo.webp" alt="OmniBrand" width="160" height="26" class="footer__logo" />
-        <p class="footer__tagline">Thoughtful brand design for founders who care about how they show up.</p>
+        <img src="/images/omnibrand-logo.webp" alt="OmniBrand" width="288" height="47" class="footer__logo" />
+        <p class="footer__tagline">We design brands that communicate your core message & reflect your true essence. Crafting memorable brands since 2011.</p>
+        <p class="footer__address-in-brand">Level 2, Bell Gully Building, 40 Lady Elizabeth Lane, Wellington Central, Wellington 6011, New Zealand</p>
       </div>
       <div class="footer__links">
         <div class="footer__col">
@@ -23,25 +24,26 @@ const year = new Date().getFullYear();
         <div class="footer__col">
           <h4 class="footer__col-title">Contact</h4>
           <ul>
-            <li><a href="mailto:info@omnibrand.co.nz">info@omnibrand.co.nz</a></li>
-            <li><a href="tel:+6448880212">+64 4 888 0212</a></li>
-            <li><a href="tel:+64204143506">+64 20 4143 5060</a></li>
-          </ul>
-        </div>
-        <div class="footer__col">
-          <h4 class="footer__col-title">Connect</h4>
-          <ul>
-            <li><a href="https://instagram.com/omnibrand.nz" target="_blank" rel="noopener">Instagram</a></li>
-            <li><a href="https://linkedin.com/company/omnibrand" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><span class="footer__contact-label">Email:</span> <a href="mailto:info@omnibrand.co.nz">info@omnibrand.co.nz</a></li>
+            <li><span class="footer__contact-label">Office Phone:</span> <a href="tel:+6448880212">+64 4 888 0212</a></li>
+            <li><span class="footer__contact-label">Whatsapp:</span> <a href="tel:+64204143506">+64 20 4143 5060</a></li>
           </ul>
         </div>
       </div>
     </div>
-    <div class="footer__address">
-      <p>Level 2, Bell Gully Building, 40 Lady Elizabeth Lane, Wellington Central, Wellington 6011, New Zealand</p>
+    <div class="footer__badges">
+      <p class="footer__recognition">Omnibrand has been recognised among the Top Branding Agencies according to Designrush</p>
+      <div class="footer__badge-images">
+        <img src="/images/DesignRush Verified Agency 2024.png" alt="DesignRush Verified Agency 2024" width="120" height="140" class="footer__badge" />
+        <img src="/images/Design Awards Winner 2025.png" alt="Design Awards Winner 2025" width="120" height="140" class="footer__badge" />
+      </div>
     </div>
-    <div class="footer__bottom">
-      <p>&copy; {year} OmniBrand Limited. All rights reserved.</p>
+  </div>
+  <div class="footer__bottom">
+    <p>&copy; {year} OmniBrand Limited. All rights reserved.</p>
+    <div class="footer__legal-links">
+      <a href="/terms-of-service">Terms of Service</a>
+      <a href="/privacy-policy">Privacy Policy</a>
     </div>
   </div>
 </footer>
@@ -49,7 +51,12 @@ const year = new Date().getFullYear();
 <style>
   .footer {
     background-color: var(--color-deep-teal);
-    color: var(--color-mid-grey);
+    color: rgb(249, 249, 249);
+    font-family: Roboto, sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.4;
     padding-block: var(--space-3xl) var(--space-lg);
   }
 
@@ -68,15 +75,25 @@ const year = new Date().getFullYear();
   }
 
   .footer__tagline {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    max-width: 35ch;
-    color: var(--color-warm-neutral);
+    max-width: 50ch;
+    color: rgb(249, 249, 249);
+    margin-bottom: var(--space-md);
+    margin-inline: 0;
+  }
+
+  .footer__address-in-brand {
+    font-size: 17px;
+    color: rgb(249, 249, 249);
+    opacity: 0.7;
+    margin: 0;
+    margin-inline: 0;
   }
 
   .footer__links {
-    display: flex;
-    gap: var(--space-3xl);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-3xl);
+    row-gap: 0;
   }
 
   .footer__col-title {
@@ -87,6 +104,7 @@ const year = new Date().getFullYear();
     text-transform: uppercase;
     color: var(--color-white);
     margin-bottom: var(--space-md);
+    line-height: 1.4;
   }
 
   .footer__col ul {
@@ -94,30 +112,99 @@ const year = new Date().getFullYear();
     display: flex;
     flex-direction: column;
     gap: 0.625rem;
+    line-height: 1.4;
+  }
+
+  .footer__col li {
+    white-space: nowrap;
   }
 
   .footer__col a {
-    font-size: 0.9rem;
-    color: var(--color-warm-neutral);
+    color: rgb(249, 249, 249);
     transition: color var(--transition-fast);
+    line-height: 1.4;
   }
 
   .footer__col a:hover {
     color: var(--color-gold-light);
   }
 
+  .footer__contact-label {
+    font-weight: 500;
+  }
+
+  .footer__col:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: -1rem;
+  }
+
   .footer__address {
     padding-top: var(--space-md);
-    font-size: 0.8rem;
-    color: var(--color-warm-neutral);
+    color: rgb(249, 249, 249);
     opacity: 0.5;
-    line-height: 1.6;
+  }
+
+.footer__badges {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+  }
+
+  .footer__recognition {
+    color: rgb(249, 249, 249);
+    font-size: 0.95rem;
+    margin-bottom: var(--space-lg);
+    opacity: 0.9;
+  }
+
+  .footer__badge-images {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+  }
+
+  .footer__badge {
+    height: auto;
+    max-width: 120px;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
   }
 
   .footer__bottom {
-    padding-top: var(--space-md);
-    font-size: 0.8rem;
-    color: var(--color-warm-neutral);
+    padding: var(--space-md) var(--space-lg);
+    color: rgb(249, 249, 249);
+    opacity: 0.7;
+    line-height: 1.4;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .footer__legal-links {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: var(--space-sm);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footer__legal-links a {
+    color: rgb(249, 249, 249);
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+    font-size: 0.9rem;
+  }
+
+  .footer__legal-links a:hover {
+    opacity: 1;
+    color: var(--color-gold-light);
+  }
+
+  .footer__legal-links a:not(:last-child)::after {
+    content: "|";
+    margin-left: 0.5rem;
     opacity: 0.7;
   }
 

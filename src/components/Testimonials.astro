@@ -1,33 +1,22 @@
 ---
 const testimonials = [
   {
-    quote: "I've worked with Omnibrand for years, and their work is top-notch. With great web designs and helpful consulting along the way, they've expanded my reach as an author of two books, built my audience, and brought in far more subscribers for my Substack, The Burner Files. With Tara Slade and her team, you're in good hands. You'll be taken care of.",
-    author: 'Geoffrey Cain',
-    role: 'Author',
-    photo: '/images/brand-design-client-review-geoffrey-cain.jpg',
+    quote: "Working on this project with Tara was an absolute delight. She tailored to every aspect of my specific vision, tirelessly making all edits, revisions, and modifications I suggested as the project evolved. To have a rough inkling of what we're after gradually brought to life with incremental changes by an artist as receptive, patient, and diligent as Tara, is incredible. As a perfectionist, I was exceptionally pleased by Tara's hard work. I can't recommend her work enough!",
+    author: 'Rav Arora',
+    role: 'The Illusion of Consensus',
+    photo: '/images/rav-arora.jpg',
   },
   {
-    quote: "Tara has an amazing eye for colour and space and gets it just right. She took my brief and made it even better than I thought possible. She really felt into my product, and established the best way to market it to my clients. On top of that she juggled our differing time-zones with ease. I couldn't think of any better person to work with.",
-    author: 'Claudia Rudolph',
-    role: 'Founder at KarooFelt',
-    photo: '/images/client-review-claudia-karoofelt.png',
-  },
-  {
-    quote: "I knew Tara was the right person to work with after meeting her. She was instantly personable, easy to communicate with, and understood what I was struggling with and what my goals were. I did not doubt that she could help me build something I'm proud of sharing — and she absolutely delivered! Her care and attention has been outstanding.",
-    author: 'Rachel Grosvenor',
-    role: 'Author',
-    photo: '/images/rachel5.jpg',
-  },
-  {
-    quote: "Tara has developed a corporate identity that really reflects the essence of the brand we wanted to create. She was intuitive, creative and patient with us. Her energy is clear and focused. We love the work she has done and we highly recommend Tara and her team at OmniBrand.",
-    author: 'Tanya Brodie-Rudolph',
-    role: 'Co-Founder at Enviromer',
-    photo: '/images/client-testimonial-enviromer-tanya-brodie-rudolph.jpg',
+    quote: "Tara has been amazing with building our website & expanding our brand for Colors of Hope & Kings Gate Ranch. She has always been on schedule & even though she's around the world for us, it's never gotten in the way. We are honored & grateful for her amazing talent & services, and her design work is far above what we could ask for. The kindness she brings to every phone call is refreshing. Our team is honored to work with Tara and her team at OmniBrand!",
+    author: 'Jo Webb',
+    role: 'Founder at Kings Gate Ranch',
+    photo: '/images/jo-testimonial01.jpg',
   },
 ];
 ---
 
 <section class="testimonials section section--dark" id="testimonials">
+  <img src="/images/background-shape1.png" class="testimonials__overlay" alt="" aria-hidden="true" />
   <div class="container">
     <div class="testimonials__header">
       <p class="testimonials__eyebrow">Client Stories</p>
@@ -56,9 +45,28 @@ const testimonials = [
 </section>
 
 <style>
+  .testimonials {
+    position: relative;
+    z-index: 1;
+  }
+
+  .testimonials__overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
   .testimonials__header {
     text-align: center;
-    margin-bottom: var(--space-3xl);
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 2;
   }
 
   .testimonials__eyebrow {
@@ -68,7 +76,7 @@ const testimonials = [
     text-transform: uppercase;
     color: var(--color-gold);
     margin-bottom: var(--space-sm);
-    padding-left: 0.2em;
+    text-align: center;
   }
 
   .testimonials__grid {
@@ -82,9 +90,10 @@ const testimonials = [
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
-    padding: var(--space-xl) var(--space-lg);
+    padding: var(--space-lg) var(--space-lg);
     position: relative;
     transition: all var(--transition-base);
+    backdrop-filter: blur(10px);
   }
 
   .testimonial:hover {
@@ -109,18 +118,20 @@ const testimonials = [
     line-height: 1.8;
     color: var(--color-mid-grey);
     margin-bottom: var(--space-lg);
+    margin-inline: 0;
     max-width: none;
   }
 
   .testimonial__author {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: var(--space-sm);
+    gap: 1rem;
   }
 
   .testimonial__avatar {
-    width: 40px;
-    height: 40px;
+    width: 68px;
+    height: 68px;
     border-radius: 50%;
     background: var(--color-gold);
     color: var(--color-white);
@@ -134,19 +145,26 @@ const testimonials = [
 
   .testimonial__avatar--photo {
     object-fit: cover;
+    border: 2px solid var(--color-white);
   }
 
   .testimonial__name {
     display: block;
     font-style: normal;
-    font-weight: 600;
-    color: var(--color-white);
-    font-size: 0.9rem;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    color: var(--color-gold);
+    font-size: 1.1rem;
+    padding-left: 15px;
   }
 
   .testimonial__role {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: var(--color-warm-neutral);
+    padding-left: 15px;
   }
 
   @media (max-width: 768px) {

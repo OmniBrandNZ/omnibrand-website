@@ -34,6 +34,7 @@ const testimonials = [
 ---
 
 <section class="ts section section--dark">
+  <img src="/images/background-shape1.png" class="ts__overlay" alt="" aria-hidden="true" />
   <div class="container">
     <h2 class="ts__title">What they said:</h2>
     <div class="ts__slider" id="testimonial-slider">
@@ -101,6 +102,23 @@ const testimonials = [
 
 <style>
   .ts {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ts__overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .ts {
     text-align: center;
     padding-block: var(--space-3xl);
   }
@@ -109,7 +127,9 @@ const testimonials = [
     font-family: var(--font-serif);
     font-size: clamp(1.8rem, 3.5vw, 2.5rem);
     color: var(--color-white);
-    margin-bottom: var(--space-3xl);
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 2;
   }
 
   /* Slider */

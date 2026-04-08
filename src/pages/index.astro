@@ -2,14 +2,16 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
+import OfferedServices from '../components/OfferedServices.astro';
 import PackageTabs from '../components/PackageTabs.astro';
-import Services from '../components/Services.astro';
 import ImageSlider from '../components/ImageSlider.astro';
 import Portfolio from '../components/Portfolio.astro';
 import TestimonialSlider from '../components/TestimonialSlider.astro';
 import About from '../components/About.astro';
 import Testimonials from '../components/Testimonials.astro';
 import Contact from '../components/Contact.astro';
+import FAQ from '../components/FAQ.astro';
+import CTASection from '../components/CTASection.astro';
 import Footer from '../components/Footer.astro';
 ---
 
@@ -17,14 +19,16 @@ import Footer from '../components/Footer.astro';
   <Header />
   <main>
     <Hero />
-    <PackageTabs />
-    <Services />
+    <OfferedServices />
     <ImageSlider />
+    <PackageTabs />
     <Portfolio />
     <TestimonialSlider />
     <About />
     <Testimonials />
     <Contact />
   </main>
+  <FAQ />
+  <CTASection />
   <Footer />
 </BaseLayout>

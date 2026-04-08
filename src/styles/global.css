@@ -31,7 +31,7 @@
 
   /* Typography */
   --font-serif: 'Libre Baskerville', 'Georgia', serif;
-  --font-sans: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  --font-sans: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   --font-display: 'Frank Ruhl Libre', 'Libre Baskerville', serif;
 
   /* Spacing Scale */
@@ -72,10 +72,12 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: Roboto, var(--font-sans);
   color: var(--color-dark-grey);
   background-color: var(--color-white);
-  line-height: 1.7;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.4;
   overflow-x: hidden;
 }
 
@@ -121,6 +123,7 @@ h3 {
 
 p {
   max-width: 65ch;
+  margin-inline: auto;
 }
 
 /* --- Utility Classes --- */

@@ -1,0 +1,194 @@
+---
+---
+
+<section class="faq section">
+  <div class="container">
+    <div class="faq__header">
+      <h2 class="faq__title">FAQ</h2>
+      <p class="faq__subtitle">Answers to our most frequently asked questions</p>
+      <div class="faq__divider"></div>
+    </div>
+
+    <div class="faq__items">
+      <div class="faq__column">
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">How long does it take?</button>
+          <div class="faq__answer">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">How many revisions are included in the design process?</button>
+          <div class="faq__answer">
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">What is the discovery session like?</button>
+          <div class="faq__answer">
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+          </div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">How do we handle projects with clients in different time zones?</button>
+          <div class="faq__answer">
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq__column">
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">How do I know which package is right for me?</button>
+          <div class="faq__answer">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis volutpat.</p>
+          </div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">What if I need additional services?</button>
+          <div class="faq__answer">
+            <p>Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis. Sed ac ligula. Sed lectus. Sed blandit.</p>
+          </div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">Can you help with rebranding an existing business?</button>
+          <div class="faq__answer">
+            <p>Vestibulum ac diam sit amet orci dignissim sodales. Sed dignissim eros id leo fringilla, at facilisis mi dapibus. Etiam ac odio. Cras eget elit. Sed dictumst. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+          </div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__question" aria-expanded="false">How do I book a consultation?</button>
+          <div class="faq__answer">
+            <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Donec sollicitudin molestie malesuada lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const questions = document.querySelectorAll('.faq__question');
+
+  questions.forEach(question => {
+    question.addEventListener('click', () => {
+      const item = question.closest('.faq__item');
+      const isOpen = item.classList.contains('faq__item--open');
+
+      if (isOpen) {
+        item.classList.remove('faq__item--open');
+        question.setAttribute('aria-expanded', 'false');
+      } else {
+        item.classList.add('faq__item--open');
+        question.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
+
+<style>
+  .faq {
+    background-color: var(--color-white);
+  }
+
+  .faq__header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .faq__title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--color-deep-teal);
+    margin-bottom: var(--space-sm);
+    letter-spacing: -0.01em;
+  }
+
+  .faq__subtitle {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-warm-neutral, var(--color-dark-grey));
+    margin-bottom: var(--space-lg);
+  }
+
+  .faq__divider {
+    width: 60px;
+    height: 3px;
+    background-color: var(--color-gold);
+    margin-inline: auto;
+  }
+
+  .faq__items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    max-width: 1500px;
+    margin-inline: auto;
+  }
+
+  .faq__column {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-light-grey);
+    padding-block: var(--space-sm);
+  }
+
+  .faq__item:last-child {
+    border-bottom: none;
+  }
+
+  .faq__question {
+    width: 100%;
+    text-align: left;
+    padding: 0;
+    background: transparent;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--color-deep-teal);
+    cursor: pointer;
+    transition: color var(--transition-base);
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .faq__question:hover {
+    color: var(--color-gold);
+  }
+
+  .faq__answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s var(--ease-smooth);
+  }
+
+  .faq__item.faq__item--open .faq__answer {
+    max-height: 500px;
+  }
+
+  .faq__answer p {
+    padding-top: var(--space-sm);
+    color: var(--color-warm-neutral, var(--color-dark-grey));
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .faq__items {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .faq__title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+  }
+</style>
