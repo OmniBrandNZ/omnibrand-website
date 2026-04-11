@@ -1,0 +1,20 @@
+name: Rebuild on Sanity content change
+
+on:
+  repository_dispatch:
+    types: [sanity-content-update]
+
+jobs:
+  trigger-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger rebuild with empty commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "chore: rebuild for Sanity content update"
+          git push
