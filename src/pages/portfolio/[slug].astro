@@ -1,20 +1,89 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { sanityClient, urlFor } from '../../lib/sanity';
+import { portfolioQuery, portfolioBySlugQuery } from '../../lib/queries';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 
-export async function getStaticPaths() {
-  const projects = await getCollection('portfolio');
-  return projects.map((project) => ({
-    params: { slug: project.id },
-    props: { project },
-  }));
+let project: any = null;
+let usingSanity = false;
+let Content: any = null;
+
+// Try Sanity first
+try {
+  if (!sanityClient) throw new Error('Not configured');
+  const allProjects = await sanityClient.fetch(portfolioQuery);
+  if (allProjects.length > 0) {
+    usingSanity = true;
+    project = await sanityClient.fetch(portfolioBySlugQuery, { slug: Astro.params.slug });
+  }
+} catch {
+  // Sanity not configured, fall through to local
 }
 
-const { project } = Astro.props;
-const { Content } = await render(project);
-const { title, excerpt, featured, images, clientName, clientHandle, clientBio, clientPhoto, clientLocation, quote } = project.data;
+// Fallback to local content collections
+if (!project) {
+  const { getCollection, render } = await import('astro:content');
+  const projects = await getCollection('portfolio');
+  const localProject = projects.find((p) => p.id === Astro.params.slug);
+  if (localProject) {
+    const rendered = await render(localProject);
+    Content = rendered.Content;
+    project = { ...localProject.data, slug: localProject.id, _local: true };
+  }
+}
+
+if (!project) {
+  return Astro.redirect('/');
+}
+
+export async function getStaticPaths() {
+  const paths: any[] = [];
+
+  // Local content collections paths
+  try {
+    const { getCollection } = await import('astro:content');
+    const projects = await getCollection('portfolio');
+    projects.forEach((p) => {
+      paths.push({ params: { slug: p.id } });
+    });
+  } catch {}
+
+  // Sanity paths
+  try {
+    const projectId = process.env.PUBLIC_SANITY_PROJECT_ID;
+    if (!projectId) throw new Error('Not configured');
+    const { createClient } = await import('@sanity/client');
+    const client = createClient({
+      projectId,
+      dataset: process.env.PUBLIC_SANITY_DATASET || 'production',
+      apiVersion: '2024-01-01',
+      useCdn: true,
+    });
+    const sanityProjects = await client.fetch(`*[_type == "portfolio"]{ "slug": slug.current }`);
+    sanityProjects.forEach((p: any) => {
+      if (p.slug && !paths.find((existing) => existing.params.slug === p.slug)) {
+        paths.push({ params: { slug: p.slug } });
+      }
+    });
+  } catch {}
+
+  return paths;
+}
+
+function getImageUrl(field: string, width = 1000) {
+  if (project._local) return project[field];
+  const img = project[field];
+  if (!img) return '';
+  return urlFor(img).width(width).url();
+}
+
+function getGalleryImageUrl(img: any, width = 800) {
+  if (project._local) return img;
+  return urlFor(img).width(width).url();
+}
+
+const { title, excerpt, clientName, clientHandle, clientBio, clientLocation, quote } = project;
 ---
 
 <BaseLayout title={`${title} — OmniBrand Portfolio`} description={excerpt}>
@@ -29,12 +98,12 @@ const { title, excerpt, featured, images, clientName, clientHandle, clientBio, c
           <!-- Left: Featured image + grid -->
           <div class="portfolio-detail__gallery">
             <div class="portfolio-detail__featured">
-              <img src={featured} alt={`${title} — featured`} width="1000" height="750" />
+              <img src={getImageUrl('featured')} alt={`${title} — featured`} width="1000" height="750" />
             </div>
             <div class="portfolio-detail__grid">
-              {images.slice(0, 5).map((img, i) => (
+              {(project.images || []).slice(0, 5).map((img: any, i: number) => (
                 <div class={`portfolio-detail__grid-item ${i === 4 ? 'portfolio-detail__grid-item--span' : ''}`}>
-                  <img src={img} alt={`${title} — image ${i + 1}`} loading="lazy" />
+                  <img src={getGalleryImageUrl(img)} alt={`${title} — image ${i + 1}`} loading="lazy" />
                 </div>
               ))}
             </div>
@@ -44,7 +113,9 @@ const { title, excerpt, featured, images, clientName, clientHandle, clientBio, c
           <!-- Right: Description + client info -->
           <div class="portfolio-detail__info">
             <div class="portfolio-detail__description">
-              <Content />
+              {Content ? <Content /> : (
+                project.body && <Fragment set:html="<p>Content available in Sanity Studio</p>" />
+              )}
             </div>
 
             {quote && (
@@ -55,7 +126,7 @@ const { title, excerpt, featured, images, clientName, clientHandle, clientBio, c
 
             <div class="portfolio-detail__client">
               <div class="portfolio-detail__client-header">
-                <img src={clientPhoto} alt={clientName} class="portfolio-detail__client-photo" width="56" height="56" />
+                <img src={getImageUrl('clientPhoto', 112)} alt={clientName} class="portfolio-detail__client-photo" width="56" height="56" />
                 <div>
                   <span class="portfolio-detail__client-label">Client:</span>
                   <span class="portfolio-detail__client-name">{clientName}</span>
@@ -103,7 +174,6 @@ const { title, excerpt, featured, images, clientName, clientHandle, clientBio, c
     margin-bottom: var(--space-xl);
   }
 
-  /* Main 2-column layout */
   .portfolio-detail__layout {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
@@ -111,7 +181,6 @@ const { title, excerpt, featured, images, clientName, clientHandle, clientBio, c
     align-items: start;
   }
 
-  /* Gallery: featured + 2x2+1 grid */
   .portfolio-detail__featured {
     border-radius: 8px;
     overflow: hidden;
@@ -153,7 +222,6 @@ const { title, excerpt, featured, images, clientName, clientHandle, clientBio, c
     line-height: 1.7;
   }
 
-  /* Right side: description + client */
   .portfolio-detail__description {
     font-size: 1.05rem;
     line-height: 1.8;

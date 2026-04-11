@@ -26,6 +26,10 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
+# sanity
+dist-studio/
+.sanity/
+
 # editor
 .vscode/
 .idea/
