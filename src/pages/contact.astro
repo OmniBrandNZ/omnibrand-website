@@ -2,6 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
+const CONTACT_API_URL = import.meta.env.PUBLIC_CONTACT_API_URL || 'https://email.omnibrand.cloud/api/contact';
+const SITE_KEY = import.meta.env.PUBLIC_CONTACT_SITE_KEY || 'omnibrand';
 ---
 
 <BaseLayout title="Contact Us — OmniBrand" description="Get in touch with OmniBrand. Book a free discovery call or send us a message about your brand design project.">
@@ -22,7 +26,28 @@ import Footer from '../components/Footer.astro';
 
           <div class="contact-form-wrap">
             <h2 class="contact-form__title">Send us a message</h2>
-            <form class="contact-form" method="POST" action="#" id="contact-form">
+
+            <!-- Success message (hidden by default) -->
+            <div class="contact-form__success" id="form-success" hidden>
+              <div class="contact-form__success-icon" aria-hidden="true">✓</div>
+              <h3>Message sent!</h3>
+              <p>Thanks for reaching out. We'll get back to you within 1–2 business days.</p>
+            </div>
+
+            <!-- Error message (hidden by default) -->
+            <div class="contact-form__error" id="form-error" hidden>
+              <p id="form-error-text">Something went wrong. Please try again or email us directly.</p>
+            </div>
+
+            <form class="contact-form" id="contact-form"
+              data-api-url={CONTACT_API_URL}
+              data-site-key={SITE_KEY}>
+
+              <!-- Honeypot — hidden from humans -->
+              <div class="contact-form__honey" aria-hidden="true">
+                <input type="text" name="_honey" tabindex="-1" autocomplete="off" />
+              </div>
+
               <div class="contact-form__row">
                 <div class="contact-form__field">
                   <label for="first-name">First Name</label>
@@ -46,7 +71,7 @@ import Footer from '../components/Footer.astro';
 
               <div class="contact-form__field">
                 <label for="project">Please tell us all about your project</label>
-                <textarea id="project" name="project" rows="5" placeholder="What do you have in mind?"></textarea>
+                <textarea id="project" name="project" rows="5" placeholder="What do you have in mind?" required></textarea>
               </div>
 
               <div class="contact-form__field">
@@ -59,7 +84,13 @@ import Footer from '../components/Footer.astro';
                 <label for="consent">I consent to having this website store my submitted information for the purposes of responding to my enquiry.</label>
               </div>
 
-              <button type="submit" class="btn btn--primary btn--lg">Submit</button>
+              <!-- Turnstile widget -->
+              <div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="light"></div>
+
+              <button type="submit" class="btn btn--primary btn--lg" id="submit-btn">
+                <span class="btn__text" id="btn-text">Submit</span>
+                <span class="btn__loading" id="btn-loading" style="display:none;">Sending...</span>
+              </button>
             </form>
           </div>
 
@@ -99,6 +130,90 @@ import Footer from '../components/Footer.astro';
   </main>
   <Footer />
 </BaseLayout>
+
+<!-- Turnstile script -->
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const btnText = document.getElementById('btn-text') as HTMLElement;
+  const btnLoading = document.getElementById('btn-loading') as HTMLElement;
+  const successEl = document.getElementById('form-success') as HTMLElement;
+  const errorEl = document.getElementById('form-error') as HTMLElement;
+  const errorText = document.getElementById('form-error-text') as HTMLElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Reset states
+    errorEl.hidden = true;
+    submitBtn.disabled = true;
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'inline';
+
+    const formData = new FormData(form);
+    const apiUrl = form.dataset.apiUrl!;
+    const siteKey = form.dataset.siteKey!;
+
+    // Get Turnstile token
+    const turnstileToken = formData.get('cf-turnstile-response') as string;
+    if (!turnstileToken) {
+      errorText.textContent = 'Please complete the verification challenge.';
+      errorEl.hidden = false;
+      submitBtn.disabled = false;
+      btnText.style.display = 'inline';
+      btnLoading.style.display = 'none';
+      return;
+    }
+
+    // Build payload matching ContactFormData interface
+    const firstName = (formData.get('first-name') as string || '').trim();
+    const lastName = (formData.get('last-name') as string || '').trim();
+
+    const payload = {
+      siteKey,
+      name: `${firstName} ${lastName}`.trim(),
+      email: (formData.get('email') as string || '').trim(),
+      message: [
+        formData.get('project') as string || '',
+        formData.get('location') ? `\n\nLocation: ${formData.get('location')}` : '',
+        formData.get('referral') ? `\nReferred by: ${formData.get('referral')}` : '',
+      ].join(''),
+      turnstileToken,
+      _honey: (formData.get('_honey') as string) || undefined,
+    };
+
+    try {
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        form.hidden = true;
+        successEl.hidden = false;
+      } else {
+        errorText.textContent = data.error || 'Something went wrong. Please try again or email us directly.';
+        errorEl.hidden = false;
+        // Reset Turnstile for retry
+        if (window.turnstile) {
+          window.turnstile.reset();
+        }
+      }
+    } catch {
+      errorText.textContent = 'Network error. Please check your connection and try again.';
+      errorEl.hidden = false;
+    } finally {
+      submitBtn.disabled = false;
+      btnText.style.display = 'inline';
+      btnLoading.style.display = 'none';
+    }
+  });
+</script>
 
 <style>
   /* =====================
@@ -224,6 +339,81 @@ import Footer from '../components/Footer.astro';
     color: var(--color-warm-neutral);
     line-height: 1.6;
     cursor: pointer;
+  }
+
+  /* Honeypot — completely hidden */
+  .contact-form__honey {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  /* Turnstile widget spacing */
+  .cf-turnstile {
+    margin-bottom: var(--space-lg);
+  }
+
+  /* Submit button states */
+  .btn__loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  /* Success message */
+  .contact-form__success {
+    text-align: center;
+    padding: var(--space-xl) var(--space-lg);
+    background: #f0faf4;
+    border: 1px solid #c6f0d5;
+    border-radius: 12px;
+  }
+
+  .contact-form__success-icon {
+    width: 48px;
+    height: 48px;
+    background: #16a34a;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 auto var(--space-md);
+  }
+
+  .contact-form__success h3 {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    color: var(--color-deep-teal);
+    margin-bottom: var(--space-xs);
+  }
+
+  .contact-form__success p {
+    color: var(--color-warm-neutral);
+    font-size: 0.95rem;
+  }
+
+  /* Error message */
+  .contact-form__error {
+    padding: var(--space-sm) var(--space-md);
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-form__error p {
+    color: #dc2626;
+    font-size: 0.9rem;
   }
 
   /* =====================
