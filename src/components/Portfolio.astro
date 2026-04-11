@@ -1,8 +1,31 @@
 ---
-import { getCollection } from 'astro:content';
+import { sanityClient, urlFor } from '../lib/sanity';
+import { portfolioQuery } from '../lib/queries';
 
-const projects = await getCollection('portfolio');
-const sorted = projects.sort((a, b) => a.data.order - b.data.order);
+let projects: any[] = [];
+
+try {
+  if (!sanityClient) throw new Error('Not configured');
+  projects = await sanityClient.fetch(portfolioQuery);
+} catch {
+  // Fallback: if Sanity is not configured yet, use local content collections
+  const { getCollection } = await import('astro:content');
+  const localProjects = await getCollection('portfolio');
+  projects = localProjects
+    .sort((a, b) => a.data.order - b.data.order)
+    .map((p) => ({
+      ...p.data,
+      slug: p.id,
+      _local: true,
+    }));
+}
+
+function getImageUrl(project: any, field: string) {
+  if (project._local) return project[field];
+  const img = project[field];
+  if (!img) return '';
+  return urlFor(img).width(800).url();
+}
 ---
 
 <section class="portfolio section" id="portfolio">
@@ -12,15 +35,15 @@ const sorted = projects.sort((a, b) => a.data.order - b.data.order);
       <h2>Selected Work</h2>
     </div>
     <div class="portfolio__grid">
-      {sorted.map((project) => (
-        <a href={`/portfolio/${project.id}`} class="portfolio__card">
+      {projects.map((project) => (
+        <a href={`/portfolio/${project.slug || project._id}`} class="portfolio__card">
           <div class="portfolio__card-image">
-            <img src={project.data.featured} alt={project.data.title} loading="lazy" />
+            <img src={getImageUrl(project, 'featured')} alt={project.title} loading="lazy" />
           </div>
           <div class="portfolio__card-content">
-            <h3 class="portfolio__card-title">{project.data.title}</h3>
-            <p class="portfolio__card-excerpt">{project.data.excerpt}</p>
-            <span class="portfolio__card-client">{project.data.clientName}</span>
+            <h3 class="portfolio__card-title">{project.title}</h3>
+            <p class="portfolio__card-excerpt">{project.excerpt}</p>
+            <span class="portfolio__card-client">{project.clientName}</span>
           </div>
         </a>
       ))}

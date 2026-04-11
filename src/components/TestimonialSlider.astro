@@ -1,36 +1,62 @@
 ---
-const testimonials = [
+import { sanityClient, urlFor } from '../lib/sanity';
+
+const fallbackTestimonials = [
   {
     quote: "Tara has an amazing eye for colour and space and gets it just right. She took my brief and made it even better than I thought possible. She really felt into my product, and established the best way to market it to my clients. On top of that she juggled our differing time-zones with ease. I couldn't think of any better person to work with.",
     author: 'Claudia Rudolph',
     role: 'Founder at KarooFelt',
     photo: '/images/client-review-claudia-karoofelt.png',
+    _local: true,
   },
   {
     quote: "I've worked with Omnibrand for years, and their work is top-notch. With great web designs and helpful consulting along the way, they've expanded my reach as an author of two books, built my audience, and brought in far more subscribers for my Substack, The Burner Files. With Tara Slade and her team, you're in good hands. You'll be taken care of.",
     author: 'Geoffrey Cain',
     role: 'Author',
     photo: '/images/brand-design-client-review-geoffrey-cain.jpg',
+    _local: true,
   },
   {
     quote: "I knew Tara was the right person to work with after meeting her. She was instantly personable, easy to communicate with, and understood what I was struggling with and what my goals were. I did not doubt that she could help me build something I'm proud of sharing — and she absolutely delivered! Her care and attention has been outstanding.",
     author: 'Rachel Grosvenor',
     role: 'Author',
     photo: '/images/rachel5.jpg',
+    _local: true,
   },
   {
     quote: "Tara has developed a corporate identity that really reflects the essence of the brand we wanted to create.\nShe was intuitive, creative and patient with us. Her energy is clear and focused. We love the work she has done and we highly recommend Tara and her team at OmniBrand.",
     author: 'Tanya Brodie-Rudolph',
     role: 'Co-Founder at Enviromer',
     photo: '/images/client-testimonial-enviromer-tanya-brodie-rudolph.jpg',
+    _local: true,
   },
   {
     quote: "I may have had 20 years of experience as a journalist, but when I began making the shift to start my own Substack, I felt like a disheveled mess.\nThankfully, a friend told me about Tara's amazing design work at OmniBrand. One Substack package later, and I had a slick logo, an inspired color scheme and all the support I needed to feel like I was dressed for success.",
     author: 'Stephen Totilo',
     role: 'Game File',
     photo: '/images/stephen-totilo.jpg',
+    _local: true,
   },
 ];
+
+let testimonials: any[] = [];
+
+try {
+  if (!sanityClient) throw new Error('Not configured');
+  // Fetch all testimonials (not just featured) for the slider
+  testimonials = await sanityClient.fetch(`*[_type == "testimonial"] | order(order asc) {
+    _id, quote, author, role, photo, order
+  }`);
+  if (!testimonials.length) testimonials = fallbackTestimonials;
+} catch {
+  testimonials = fallbackTestimonials;
+}
+
+function getPhotoUrl(t: any) {
+  if (t._local) return t.photo;
+  if (!t.photo) return '';
+  return urlFor(t.photo).width(270).height(270).url();
+}
 ---
 
 <section class="ts section section--dark">
@@ -46,7 +72,7 @@ const testimonials = [
             ))}
           </blockquote>
           <div class="ts__author">
-            <img src={t.photo} alt={t.author} class="ts__photo" width="100" height="100" />
+            <img src={getPhotoUrl(t)} alt={t.author} class="ts__photo" width="100" height="100" />
             <cite class="ts__name">{t.author}</cite>
             <span class="ts__role">{t.role}</span>
           </div>
@@ -83,7 +109,6 @@ const testimonials = [
     goTo((current + 1) % slides.length);
   }
 
-  // Dot clicks
   dots.forEach((dot) => {
     dot.addEventListener('click', () => {
       const idx = Number((dot as HTMLElement).dataset.index);
@@ -92,7 +117,6 @@ const testimonials = [
     });
   });
 
-  // Auto-advance every 6 seconds
   function resetAuto() {
     clearInterval(autoTimer);
     autoTimer = setInterval(next, 6000);
@@ -132,7 +156,6 @@ const testimonials = [
     z-index: 2;
   }
 
-  /* Slider */
   .ts__slider {
     position: relative;
     max-width: 800px;
@@ -158,7 +181,6 @@ const testimonials = [
     position: relative;
   }
 
-  /* Quote */
   .ts__quote {
     margin-bottom: var(--space-xl);
   }
@@ -173,7 +195,6 @@ const testimonials = [
     margin-inline: auto;
   }
 
-  /* Author */
   .ts__author {
     display: flex;
     flex-direction: column;
@@ -207,7 +228,6 @@ const testimonials = [
     color: var(--color-warm-neutral);
   }
 
-  /* Dots */
   .ts__dots {
     display: flex;
     justify-content: center;

@@ -1,18 +1,39 @@
 ---
-const testimonials = [
+import { sanityClient, urlFor } from '../lib/sanity';
+import { testimonialsQuery } from '../lib/queries';
+
+const fallbackTestimonials = [
   {
     quote: "Working on this project with Tara was an absolute delight. She tailored to every aspect of my specific vision, tirelessly making all edits, revisions, and modifications I suggested as the project evolved. To have a rough inkling of what we're after gradually brought to life with incremental changes by an artist as receptive, patient, and diligent as Tara, is incredible. As a perfectionist, I was exceptionally pleased by Tara's hard work. I can't recommend her work enough!",
     author: 'Rav Arora',
     role: 'The Illusion of Consensus',
     photo: '/images/rav-arora.jpg',
+    _local: true,
   },
   {
     quote: "Tara has been amazing with building our website & expanding our brand for Colors of Hope & Kings Gate Ranch. She has always been on schedule & even though she's around the world for us, it's never gotten in the way. We are honored & grateful for her amazing talent & services, and her design work is far above what we could ask for. The kindness she brings to every phone call is refreshing. Our team is honored to work with Tara and her team at OmniBrand!",
     author: 'Jo Webb',
     role: 'Founder at Kings Gate Ranch',
     photo: '/images/jo-testimonial01.jpg',
+    _local: true,
   },
 ];
+
+let testimonials: any[] = [];
+
+try {
+  if (!sanityClient) throw new Error('Not configured');
+  testimonials = await sanityClient.fetch(testimonialsQuery);
+  if (!testimonials.length) testimonials = fallbackTestimonials;
+} catch {
+  testimonials = fallbackTestimonials;
+}
+
+function getPhotoUrl(t: any) {
+  if (t._local) return t.photo;
+  if (!t.photo) return '';
+  return urlFor(t.photo).width(136).height(136).url();
+}
 ---
 
 <section class="testimonials section section--dark" id="testimonials">
@@ -28,8 +49,8 @@ const testimonials = [
           <div class="testimonial__quote-mark" aria-hidden="true">"</div>
           <p class="testimonial__text">{t.quote}</p>
           <footer class="testimonial__author">
-            {t.photo ? (
-              <img src={t.photo} alt={t.author} class="testimonial__avatar testimonial__avatar--photo" width="40" height="40" />
+            {getPhotoUrl(t) ? (
+              <img src={getPhotoUrl(t)} alt={t.author} class="testimonial__avatar testimonial__avatar--photo" width="40" height="40" />
             ) : (
               <div class="testimonial__avatar">{t.author[0]}</div>
             )}
